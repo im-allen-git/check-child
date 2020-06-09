@@ -1,6 +1,6 @@
 package com.kairong.controller;
 
-import com.kairong.controller.pojo.UserInfo;
+import com.kairong.pojo.UserInfo;
 import com.kairong.service.UserService;
 import com.kairong.util.CommonResult;
 import lombok.extern.slf4j.Slf4j;

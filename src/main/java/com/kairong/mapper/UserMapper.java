@@ -1,6 +1,6 @@
 package com.kairong.mapper;
 
-import com.kairong.controller.pojo.UserInfo;
+import com.kairong.pojo.UserInfo;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;

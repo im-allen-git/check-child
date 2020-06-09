@@ -1,6 +1,6 @@
 package com.kairong.service;
 
-import com.kairong.controller.pojo.UserInfo;
+import com.kairong.pojo.UserInfo;
 
 /**
  * @author: JiangXW

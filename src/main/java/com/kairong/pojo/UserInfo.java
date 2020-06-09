@@ -1,4 +1,4 @@
-package com.kairong.controller.pojo;
+package com.kairong.pojo;
 
 import lombok.Data;
 

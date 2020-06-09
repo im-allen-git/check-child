@@ -1,6 +1,6 @@
 package com.kairong.service.impl;
 
-import com.kairong.controller.pojo.UserInfo;
+import com.kairong.pojo.UserInfo;
 import com.kairong.mapper.UserMapper;
 import com.kairong.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
