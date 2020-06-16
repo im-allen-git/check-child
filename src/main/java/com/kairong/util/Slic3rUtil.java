@@ -45,11 +45,12 @@ public class Slic3rUtil {
     public String getFilePath(String fileName) {
 
         String month = TimeUtil.getTimeWithYearAndMonth(LocalDateTime.now());
-        Random random = new Random();
-        int nextInt = random.nextInt(9999);
+        // Random random = new Random();
+        // int nextInt = random.nextInt(9999);
 
-        String endSuffix = fileName.substring(fileName.lastIndexOf("."));
-        return uploadDir.replace("\\", "/") + "/" + month + "/" + System.currentTimeMillis() + "_" + nextInt + endSuffix;
+        // String endSuffix = fileName.substring(fileName.lastIndexOf("."));
+        // return uploadDir.replace("\\", "/") + "/" + month + "/" + System.currentTimeMillis() + "_" + nextInt + endSuffix;
+        return uploadDir.replace("\\", "/") + "/" + month + "/" + fileName;
     }
 
     /**
