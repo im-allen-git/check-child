@@ -16,8 +16,8 @@ function getItems(){
 
             },
             success:function(res){
-                if(res.code == 200){
-
+                if(res.ok){
+                    itemHTML(data)
                 }
             },
             error:function(res){
@@ -31,7 +31,7 @@ function itemHTML(data){
     var module = data.module;
     if(printer){
         var printerHtml = '<div class="title row clearfix">3D打印机/配件</div>';
-        printerHtml += '<div class="3dPrinter row clearfix">'
+        printerHtml += '<div class="3dPrinter row clearfix">';
         for(var i in printer){
             printerHtml += '<div class="col-xs-12 col-sm-6 each_good"><div class="good_wrapper clearfix">';
             printerHtml += '<div class="col-xs-4 img_wrapper"><img src="" alt=""></div>';
@@ -45,7 +45,7 @@ function itemHTML(data){
     }
     if(module){
         var moduleHtml = '<div class="title row clearfix">高级模型</div>';
-        moduleHtml += '<div class="module row clearfix">'
+        moduleHtml += '<div class="module row clearfix">';
         for(var i in module){
             moduleHtml += '<div class="col-xs-6 col-sm-3 each_module">';
             moduleHtml += '<div class="each_module_wrapper">';
