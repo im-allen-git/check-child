@@ -6,6 +6,7 @@ import com.kairong.util.ZipFileUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
@@ -34,6 +35,10 @@ public class FileServiceImpl implements FileService {
 
     @Override
     public String saveAndGenGcode(MultipartFile file, Map<String, String> commandLineMap) throws IOException {
+
+        if (file.getOriginalFilename().endsWith(".png")) {
+            return saveImg(file);
+        }
 
         String rsPath = null;
 
@@ -64,6 +69,22 @@ public class FileServiceImpl implements FileService {
             }
         }
         return rsPath;
+    }
+
+
+    private String saveImg(MultipartFile file) {
+        String filePath = null;
+        try {
+            filePath = slic3rUtil.getFilePath(Objects.requireNonNull(file.getOriginalFilename()));
+            File saveFile = new File(filePath);
+            if (!saveFile.getParentFile().exists() || !saveFile.getParentFile().isDirectory()) {
+                saveFile.getParentFile().mkdirs();
+            }
+            file.transferTo(saveFile);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return filePath;
     }
 
     @Override

@@ -6,6 +6,7 @@ import com.kairong.util.CommonResult;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -16,6 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -32,6 +34,9 @@ public class FileController {
 
     @Autowired
     private FileService fileService;
+
+    @Value("${file.upload-dir}")
+    private String uploadDir;
 
 
     @PostMapping("/uploadFileAndGenGcode")
@@ -89,6 +94,29 @@ public class FileController {
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"")
                 .body(resource);
 
+    }
+
+    @CrossOrigin("*")
+    @PostMapping("/testUpload")
+    public CommonResult testUpload(HttpServletRequest request, @RequestParam("file") MultipartFile file) {
+
+        try {
+            // , @RequestParam("commandLineMap") Map<String, String> commandLineMap
+
+            Assert.notNull(file, "file null");
+
+            String fileName = uploadDir + "/" + System.currentTimeMillis() + "_" + file.getOriginalFilename();
+            file.transferTo(new File(fileName));
+            if (null != fileName) {
+                return CommonResult.success(fileName);
+            } else {
+                return CommonResult.failed("uploadFileAndGenGcode error: no file");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            log.error("uploadFileAndGenGcode, error", e);
+            return CommonResult.failed(e.getMessage());
+        }
     }
 
 }
