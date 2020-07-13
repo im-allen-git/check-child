@@ -70,7 +70,7 @@ public class Slic3rUtil {
         if (null != commandLineMap && commandLineMap.size() > 0) {
             commandLineMap.forEach((k, v) -> sb.append(" " + k + " " + v));
         }
-        sb.append(" --output " + outputPath);
+        sb.append(" --output " + outputPath + " --load config.ini");
         System.err.println(sb.toString());
         return exportGcodeByCommandLine(sb.toString(), outputPath);
     }

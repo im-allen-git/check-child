@@ -36,9 +36,9 @@ public class FileServiceImpl implements FileService {
     @Override
     public String saveAndGenGcode(MultipartFile file, Map<String, String> commandLineMap) throws IOException {
 
-        if (file.getOriginalFilename().endsWith(".png")) {
+        /*if (file.getOriginalFilename().endsWith(".png")) {
             return saveImg(file);
-        }
+        }*/
 
         String rsPath = null;
 
