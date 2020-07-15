@@ -1,6 +1,6 @@
 .receivedAddress *{font-size:.15rem}
 .receivedAddress{margin-top:.5rem}
-.receivedAddress_wrapper{background:#FFF;color:#333;line-height: .4rem;border-radius: 4px;}
+.receivedAddress_wrapper{background:#FFF;color:#333;line-height: .4rem;border-radius: 4px;margin-top: .1rem;}
 .receivedAddress_wrapper .col-xs-12,.receivedAddress_wrapper .col-xs-6{padding:0 15px;}
 .top_title_wrapper {height: .4rem;}
 .sub_title { padding: 0 .1rem; position: absolute; left: .3rem; }
