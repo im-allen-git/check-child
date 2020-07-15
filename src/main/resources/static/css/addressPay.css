@@ -1,0 +1,20 @@
+.receivedAddress *{font-size:.15rem}
+.receivedAddress{margin-top:.5rem}
+.receivedAddress_wrapper{background:#FFF;color:#333;line-height: .4rem;border-radius: 4px;}
+.receivedAddress_wrapper .col-xs-12,.receivedAddress_wrapper .col-xs-6{padding:0 15px;}
+.top_title_wrapper {height: .4rem;}
+.sub_title { padding: 0 .1rem; position: absolute; left: .3rem; }
+input {background:none;outline: none;color:#333;padding:0 .1rem;width:100%;}
+
+.receive_tag { position: absolute; left: .12rem; top: .1rem; line-height: .2rem; height: .2rem; background: red; border-radius: 0 4px 4px 0; color: #fff; width: .25rem; text-align: center; }
+.save_address { padding-left: .1rem; }
+.clear_info { text-align: right; padding-right: .1rem; }
+.color_red{color:red;}
+.save_address .iconfont {color:#999;padding-right: .05rem;}
+.save_address .iconfont.selectedSave {color:red;}
+
+.pay_wrapper{margin-top: .15rem;background:#FFF;color:#333;border-radius: 4px;line-height: .4rem;}
+.pay_title{padding-left: .1rem;}
+#total_price{padding-right: .1rem;}
+.wechat_pay,.alipay_pay{color:#00ac1c;font-size: .35rem;padding: .15rem 0}
+.alipay_pay{color:#239fdb;}

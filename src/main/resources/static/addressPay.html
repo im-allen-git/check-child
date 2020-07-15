@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>支付</title>
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, minimum-scale=1, maximum-scale=1, initial-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="IE=11,chrome=1">
+    <link type="text/css" rel="stylesheet" href="../css/font/iconfont.css">
+    <link type="text/css" rel="stylesheet" href="../css/bootstrap.min.css">
+    <link type="text/css" rel="stylesheet" href="../css/common.css">
+    <link type="text/css" rel="stylesheet" href="../css/addressPay.css">
+</head>
+<body>
+<div class="main_wrapper">
+    <div class="container">
+        <div class="top_menu row clearfix">
+            <div class="top_menu_btn back col-xs-4 text-left iconfont" onclick="goBack();">&#xe720;</div>
+            <div class="top_menu_btn top_title col-xs-4 text-center">支付</div>
+        </div>
+        <div class="row receivedAddress">
+            <div class="col-xs-12">
+                <div class="receivedAddress_wrapper">
+                    <div class="row">
+                        <div class="col-xs-12 clearfix top_title_wrapper">
+                            <div class="receive_tag">收</div>
+                            <div class="sub_title">收件人</div>
+                        </div>
+                        <div class="col-xs-6">
+                            <input type="text" placeholder="姓名" id="receiveName" oninput="ifInput(this)">
+                        </div>
+                        <div class="col-xs-6">
+                            <input type="number" placeholder="手机号" id="receivePhone" oninput="ifInput(this)">
+                        </div>
+                        <div class="col-xs-6">
+                            <input type="text" placeholder="省份" id="receiveProvince" oninput="ifInput(this)">
+                        </div>
+                        <div class="col-xs-6">
+                            <input type="text" placeholder="城市 / 区域" id="receiveCity" oninput="ifInput(this)">
+                        </div>
+                        <div class="col-xs-12">
+                            <input type="text" placeholder="详细地址（例如：**街**号）" id="receiveOther" oninput="ifInput(this)">
+                        </div>
+                        <div class="col-xs-6">
+                            <div class="save_address" onclick="saveAddress()">
+                                <i class="iconfont">&#xe735;</i>保存到地址
+                                <input type="hidden" id="saveAddress" value="0">
+                            </div>
+                        </div>
+                        <div class="col-xs-6">
+                            <div class="clear_info" onclick="clearAddress()">清空当前信息</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="pay_wrapper">
+                    <div class="row">
+                        <div class="pay_info">
+                            <div class="col-xs-6">
+                                <div class="pay_title">总价</div>
+                            </div>
+                            <div class="col-xs-6 text-right">
+                                <div id="total_price">￥20.11</div>
+                            </div>
+
+                            <div class="col-xs-6 text-center">
+                                <div class="iconfont wechat_pay">&#xe6b3;</div>
+                            </div>
+                         <div class="col-xs-6 text-center">
+                                <div class="iconfont alipay_pay">&#xe915;</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+<script src=" js/jquery.min.js"></script>
+<script src="js/addressPay.js"></script>
+</html>

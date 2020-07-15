@@ -36,7 +36,7 @@ function itemHTML(data){
             printerHtml += '<div class="col-xs-12 col-sm-6 each_good"><div class="good_wrapper clearfix">';
             printerHtml += '<div class="col-xs-4 img_wrapper"><img src="" alt=""></div>';
             printerHtml += '<div class="col-xs-8">';
-            printerHtml += '<div class="good_title">带蓝牙、Wi-Fi、USB的3D打印 机，用于教育</div>';
+            printerHtml += '<div class="good_title">带蓝牙、Wi-Fi、USB的3D打印机，用于教育</div>';
             printerHtml += '<div class="good_price">￥1200.00</div>';
             printerHtml += '<div class="good_buy"></div>';
             printerHtml += '</div></div></div>';
@@ -57,4 +57,8 @@ function itemHTML(data){
         }
         $(".module_wrapper").html(moduleHtml)
     }
+}
+
+function buyThis(id){
+    window.location.href = './addressPay.html?id='+id;
 }
