@@ -6,7 +6,7 @@
 .receivedAddress_wrapper .col-xs-12,.receivedAddress_wrapper .col-xs-6{padding:0 15px;}
 .top_title_wrapper {height: .4rem;}
 .sub_title { padding: 0 .1rem; position: absolute; left: .3rem; }
-input {background:none;outline: none;color:#333;padding:0 .1rem;width:100%;-webkit-touch-callout:none; -webkit-user-select:initial; -khtml-user-select:initial; -moz-user-select:initial; -ms-user-select:initial; user-select:initial;-moz-touch-callout:none;-ms-touch-callout:none;touch-callout:none;}
+input {background:none;outline: none;color:#333;padding:0 .1rem;width:100%;-webkit-user-select:initial; -khtml-user-select:initial; -moz-user-select:initial; -ms-user-select:initial; user-select:initial;}
 
 .receive_tag { position: absolute; left: .12rem; top: .1rem; line-height: .2rem; height: .2rem; background: red; border-radius: 0 4px 4px 0; color: #fff; width: .25rem; text-align: center; }
 .save_address { padding-left: .1rem; }
