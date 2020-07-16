@@ -59,6 +59,15 @@ function saveAddress(){
         $(".save_address .iconfont").removeClass("selectedSave").addClass("selectedSave");
     }
 }
+function payMethodChange(type, obj) {
+    $(".active_pay").removeClass("active_pay");
+    if(type == 0 ){
+        $(".wechat_wrapper").addClass("active_pay")
+    }
+    else{
+        $(".alipay_wrapper").addClass("active_pay")
+    }
+}
 function goBack(){
     js.changeActive( "111" );//1,我的模型 2 商城 3 模型库首页 4 创建模型 5 返回上一页
 }

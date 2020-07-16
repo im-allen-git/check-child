@@ -1,10 +1,12 @@
+.main_wrapper { overflow-x: hidden; }
+
 .receivedAddress *{font-size:.15rem}
 .receivedAddress{margin-top:.5rem}
 .receivedAddress_wrapper{background:#FFF;color:#333;line-height: .4rem;border-radius: 4px;margin-top: .1rem;}
 .receivedAddress_wrapper .col-xs-12,.receivedAddress_wrapper .col-xs-6{padding:0 15px;}
 .top_title_wrapper {height: .4rem;}
 .sub_title { padding: 0 .1rem; position: absolute; left: .3rem; }
-input {background:none;outline: none;color:#333;padding:0 .1rem;width:100%;}
+input {background:none;outline: none;color:#333;padding:0 .1rem;width:100%;-webkit-touch-callout:none; -webkit-user-select:initial; -khtml-user-select:initial; -moz-user-select:initial; -ms-user-select:initial; user-select:initial;-moz-touch-callout:none;-ms-touch-callout:none;touch-callout:none;}
 
 .receive_tag { position: absolute; left: .12rem; top: .1rem; line-height: .2rem; height: .2rem; background: red; border-radius: 0 4px 4px 0; color: #fff; width: .25rem; text-align: center; }
 .save_address { padding-left: .1rem; }
@@ -16,5 +18,9 @@ input {background:none;outline: none;color:#333;padding:0 .1rem;width:100%;}
 .pay_wrapper{margin-top: .15rem;background:#FFF;color:#333;border-radius: 4px;line-height: .4rem;}
 .pay_title{padding-left: .1rem;}
 #total_price{padding-right: .1rem;}
-.wechat_pay,.alipay_pay{color:#00ac1c;font-size: .35rem;padding: .15rem 0}
+.check_icon {color:#9EA6B1; padding-left: .25rem;height:.5rem;line-height: .5rem}
+.active_pay .check_icon .iconfont{color:#ff9903;}
+.check_icon .iconfont {font-size: .23rem;}
+.wechat_pay,.alipay_pay{color:#00ac1c;font-size: .35rem;height:.5rem;line-height: .5rem}
 .alipay_pay{color:#239fdb;}
+.pay_now_btn { width: 100%; background: #ffc000; text-align: center; height: .6rem; line-height: .6rem; border-radius: 5px; margin: .2rem auto; font-size: .2rem; }
