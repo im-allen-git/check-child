@@ -1,0 +1,64 @@
+{
+  "data": {
+    "printer": [
+      {
+        "title": "带蓝牙、Wi-Fi、USB的3D打印 机，用于教育",
+        "price": "1200.00",
+        "id": "01",
+        "type": "0",
+        "img": "../img/3dPrinting/shapes.png"
+      },
+      {
+        "title": "带蓝牙、Wi-Fi、USB的3D打印 机，用于教育",
+        "price": "1200.00",
+        "id": "02",
+        "type": "0",
+        "img": "../img/3dPrinting/shapes.png"
+      },
+      {
+        "title": "带蓝牙、Wi-Fi、USB的3D打印 机，用于教育",
+        "price": "1200.00",
+        "id": "03",
+        "type": "0",
+        "img": "../img/3dPrinting/shapes.png"
+      },
+      {
+        "title": "带蓝牙、Wi-Fi、USB的3D打印 机，用于教育",
+        "price": "1200.00",
+        "id": "04",
+        "type": "0",
+        "img": "../img/3dPrinting/shapes.png"
+      }
+    ],
+    "module": [
+      {
+        "title": "带翅膀的女孩",
+        "price": "5.00",
+        "id": "01",
+        "type": "1",
+        "img": "../img/3dPrinting/shapes.png"
+      },
+      {
+        "title": "带翅膀的女孩",
+        "price": "5.00",
+        "id": "01",
+        "type": "1",
+        "img": "../img/3dPrinting/shapes.png"
+      },
+      {
+        "title": "带翅膀的女孩",
+        "price": "5.00",
+        "id": "01",
+        "type": "1",
+        "img": "../img/3dPrinting/shapes.png"
+      },
+      {
+        "title": "带翅膀的女孩",
+        "price": "5.00",
+        "id": "01",
+        "type": "1",
+        "img": "../img/3dPrinting/shapes.png"
+      }
+    ]
+  }
+}
