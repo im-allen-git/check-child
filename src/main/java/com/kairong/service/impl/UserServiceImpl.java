@@ -38,4 +38,26 @@ public class UserServiceImpl implements UserService {
     public int updateUserInfo(UserInfo userInfo) {
         return userMapper.updateUserInfo(userInfo);
     }
+
+
+    @Override
+    public int equipmentInfoUp(String ip,String mac) {
+        return userMapper.equipmentInfoUp(ip,mac);
+    }
+
+    @Override
+    public int getUserId(String mac) {
+        return userMapper.getUserId(mac);
+    }
+
+
+
+    @Override
+    public int weighingDataInsert(String userId,String mac,String item,String weight,String createTime) {
+        return userMapper.weighingDataInsert(userId , mac, item, weight ,createTime);
+    }
+
+
+
+
 }

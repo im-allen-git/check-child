@@ -29,4 +29,16 @@ public interface UserMapper {
 
     @Update("update android_user set pass_word = #{pass_word} where id = #{id}")
     int updateUserInfo(UserInfo userInfo);
+
+    @Update("update equipment set ip_address = #{ip},online_type=2 where mac = #{mac}")
+    int equipmentInfoUp(String ip,String mac);
+
+    @Select("select user_id from equipment where mac = #{mac}")
+    int getUserId(String mac);
+
+    @Insert("insert into weighing_data(user_id,mac,item,type,weight,create_time) values(#{userId},#{mac},#{item},1,#{weight},#{createTime})")
+    int weighingDataInsert(String userId,String mac,String item,String weight,String createTime);
+
+
+
 }
