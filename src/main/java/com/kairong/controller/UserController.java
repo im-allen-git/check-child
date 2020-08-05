@@ -1,6 +1,9 @@
 package com.kairong.controller;
 
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.kairong.pojo.UserInfo;
+import com.kairong.pojo.UserPojo;
 import com.kairong.service.UserService;
 import com.kairong.util.CommonResult;
 import lombok.extern.slf4j.Slf4j;
@@ -8,9 +11,11 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 
 /**
  * @author: JiangXW
@@ -116,4 +121,17 @@ public class UserController {
     }
 
 
+
+    // 客户端发过来的数据
+    @PostMapping("/userDataSync")
+    public String userDataSync( @RequestParam("userListSync") String userListSync,HttpServletRequest request, HttpServletResponse response) {
+
+        List<UserPojo> userList = JSONObject.parseArray(userListSync,  UserPojo.class);
+
+        for (int i=0; i<userList.size(); i++) {
+            System.out.println(userList.get(i).getUserId());
+        }
+
+        return "";
+    }
 }

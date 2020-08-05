@@ -40,5 +40,4 @@ public interface UserMapper {
     int weighingDataInsert(String userId,String mac,String item,String weight,String createTime);
 
 
-
 }
