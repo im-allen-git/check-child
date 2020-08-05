@@ -1,5 +1,6 @@
 package com.kairong.controller;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.kairong.pojo.UserInfo;
@@ -16,6 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author: JiangXW
@@ -122,16 +124,105 @@ public class UserController {
 
 
 
-    // 客户端发过来的数据
-    @PostMapping("/userDataSync")
-    public String userDataSync( @RequestParam("userListSync") String userListSync,HttpServletRequest request, HttpServletResponse response) {
+//    // 客户端发过来的数据
+//    @PostMapping("/userDataSync")
+//    public String userDataSync( @RequestParam("userListSync") String userListSync,HttpServletRequest request, HttpServletResponse response) {
+//
+//        List<UserPojo> userList = JSONObject.parseArray(userListSync,  UserPojo.class);
+//
+//        for (int i=0; i<userList.size(); i++) {
+//            System.out.println(userList.get(i).getUserId());
+//        }
+//
+//        return "";
+//    }
 
-        List<UserPojo> userList = JSONObject.parseArray(userListSync,  UserPojo.class);
 
-        for (int i=0; i<userList.size(); i++) {
-            System.out.println(userList.get(i).getUserId());
+    @CrossOrigin("*")
+    @GetMapping("/registerOrLogin")
+    // 保存注册用户数据
+    public CommonResult registerOrLogin(HttpServletRequest request, HttpServletResponse response,String nickName,String mobile) {
+
+        try {
+
+            int userId = userService.checkUserIdExist(mobile);
+            if(userId ==0){
+                UserPojo userPojo = new UserPojo();
+                userPojo.setNick_name(nickName);
+                userPojo.setMobile(mobile);
+
+                // 保存注册用户数据
+                userId = userService.saveUserDataBase(userPojo);
+                // session保存userId
+                request.getSession().setAttribute("userId", userId);
+            }
+
+            if (userId > 0) {
+                return CommonResult.success(1, userId);
+            } else {
+                return CommonResult.success(0, null);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            log.error("registerOrLogin, error:", mobile, e);
+            return CommonResult.failed(e.getMessage());
         }
-
-        return "";
     }
+
+    @CrossOrigin("*")
+    @GetMapping("/getUserId")
+    // 取得session里的userid
+    public String getUserId(HttpServletRequest request, HttpServletResponse response) {
+
+        String userId = (String) request.getSession().getAttribute("userId");
+        return userId;
+
+    }
+
+    @CrossOrigin("*")
+    @GetMapping("/getUserInfoDataList")
+    // 查询用户信息数据
+    public String getUserInfoDataList(HttpServletRequest request, HttpServletResponse response,String userId) {
+
+        // 查询用户信息数据
+        UserPojo userInfo = userService.getUserInfoData(userId);
+
+        return JSON.toJSONString(userInfo);
+
+    }
+
+
+    @CrossOrigin("*")
+    @GetMapping("/updateUserInfo")
+    // 用户数据修改
+    public CommonResult updateUserInfo(HttpServletRequest request, HttpServletResponse response,String userId,String nickName,String sex,String birthday,
+                                       String height,String weight,String wasteRate,String number) {
+
+        try {
+
+            UserPojo userPojo = new UserPojo();
+            userPojo.setUser_id(userId);
+            userPojo.setNick_name(nickName);
+            userPojo.setSex(sex);
+            userPojo.setBirthday(birthday);
+            userPojo.setHeight(height);
+            userPojo.setWeight(weight);
+            userPojo.setWaste_rate(wasteRate);
+            userPojo.setNumber(number);
+
+            int count = userService.updateUserInfoDataBase(userPojo);
+
+            if (count > 0) {
+                return CommonResult.success(1, count);
+            } else {
+                return CommonResult.success(0, null);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            log.error("updateUserInfo, error:", userId, e);
+            return CommonResult.failed(e.getMessage());
+        }
+    }
+
+
 }

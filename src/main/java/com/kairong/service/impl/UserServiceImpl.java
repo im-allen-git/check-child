@@ -2,9 +2,13 @@ package com.kairong.service.impl;
 
 import com.kairong.pojo.UserInfo;
 import com.kairong.mapper.UserMapper;
+import com.kairong.pojo.UserPojo;
 import com.kairong.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author: JiangXW
@@ -57,6 +61,25 @@ public class UserServiceImpl implements UserService {
         return userMapper.weighingDataInsert(userId , mac, item, weight ,createTime);
     }
 
+
+    @Override
+    public int checkUserIdExist(String mobile) {
+        return userMapper.checkUserIdExist(mobile);
+    }
+
+    @Override
+    public int saveUserDataBase(UserPojo userPojo) {
+        return userMapper.saveUserDataBase(userPojo.getNick_name(),userPojo.getMobile());
+    }
+
+    @Override
+    public UserPojo getUserInfoData(String userId) {
+        return userMapper.getUserInfoData(userId);
+    }
+    @Override
+    public int updateUserInfoDataBase(UserPojo userPojo) {
+        return userMapper.updateUserInfoDataBase(userPojo);
+    }
 
 
 

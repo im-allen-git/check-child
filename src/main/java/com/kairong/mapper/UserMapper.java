@@ -1,10 +1,8 @@
 package com.kairong.mapper;
 
 import com.kairong.pojo.UserInfo;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Select;
-import org.apache.ibatis.annotations.Update;
+import com.kairong.pojo.UserPojo;
+import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Component;
 
 /**
@@ -40,4 +38,25 @@ public interface UserMapper {
     int weighingDataInsert(String userId,String mac,String item,String weight,String createTime);
 
 
+    @Select("select count(0) from user_saz where mobile = #{mobile}")
+    int checkUserIdExist(String mobile);
+
+    @Insert("insert into user_saz(nick_name,mobile) values(#{nickName},#{mobile}})")
+    @Options(useGeneratedKeys = true, keyProperty = "id", keyColumn = "id")
+    int saveUserDataBase(String nickName,String mobile);
+
+    @Select("select user_id,nick_name,mobile,sex,birthday,height,weight,waste_rate,number,DATE_FORMAT(create_time,'%Y-%m-%d %H:%i:%S') as create_time " +
+            "from user_saz where user_id = #{userId}")
+    UserPojo getUserInfoData(String userId);
+
+    @Update("<script> update user_saz set " +
+            "<if test='nick_name!=null '> nick_name = #{nick_name}, </if>" +
+            "<if test='sex!=null '> sex = #{sex}, </if>" +
+            "<if test='birthday!=null '> birthday = #{birthday}, </if>" +
+            "<if test='height!=null '> height = #{height}, </if>" +
+            "<if test='weight!=null '> weight = #{weight}, </if>" +
+            "<if test='waste_rate!=null '> waste_rate = #{waste_rate}, </if>" +
+            "<if test='number!=null '> number = #{number}, </if>" +
+            " where user_id = #{user_id} </script>")
+    int updateUserInfoDataBase(UserPojo userPojo);
 }
