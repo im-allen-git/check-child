@@ -12,7 +12,7 @@
 .module .each_module:nth-child(2n){padding-left: 5px;}
 .module .each_module:nth-child(2n+1){padding-right: 5px;}
 .module .good_buy { background-position: center; }
-
+.each_module{margin-bottom:.1rem;}
 .printer.clearfix { margin-top: .46rem; }
 .module_wrapper { margin-bottom: 20px; }
 @media only screen and (max-width: 369px) {

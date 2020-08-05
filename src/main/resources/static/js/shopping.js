@@ -1,7 +1,7 @@
 
 
 $( function () {
-
+    getItems()
 })
 function goBack(){
     js.changeActive( "5" );//1,我的模型 2 商城 3 模型库首页 4 创建模型 5 返回上一页
@@ -9,15 +9,15 @@ function goBack(){
 function getItems(){
     $.ajax({
             type: "GET",
-            url:"",
+            url:"../assets/shopping.json",
             data:{},
             dataType: "JSON",
             beforeSend: function () {
 
             },
             success:function(res){
-                if(res.ok){
-                    itemHTML(data)
+                if(true){
+                    itemHTML(res.data)
                 }
             },
             error:function(res){
@@ -36,12 +36,16 @@ function itemHTML(data){
             printerHtml += '<div class="col-xs-12 col-sm-6 each_good"><div class="good_wrapper clearfix">';
             printerHtml += '<div class="col-xs-4 img_wrapper"><img src="" alt=""></div>';
             printerHtml += '<div class="col-xs-8">';
-            printerHtml += '<div class="good_title">带蓝牙、Wi-Fi、USB的3D打印机，用于教育</div>';
-            printerHtml += '<div class="good_price">￥1200.00</div>';
-            printerHtml += '<div class="good_buy"></div>';
+            printerHtml += '<div class="good_title">'+printer[i].title+'</div>';
+            printerHtml += '<div class="good_price">￥'+printer[i].price+'</div>';
+            printerHtml += '<div class="good_buy" onclick="buyThis(\''+printer[i].id+'\'")></div>';
             printerHtml += '</div></div></div>';
         }
+        printerHtml += '</div>';
         $(".printer").html(printerHtml)
+    }
+    else{
+        $(".printer").hide();
     }
     if(module){
         var moduleHtml = '<div class="title row clearfix">高级模型</div>';
@@ -50,12 +54,15 @@ function itemHTML(data){
             moduleHtml += '<div class="col-xs-6 col-sm-3 each_module">';
             moduleHtml += '<div class="each_module_wrapper">';
             moduleHtml += '<div class="img_wrapper"><img src="" alt=""></div>';
-            moduleHtml += '<div class="good_title text-center">带翅膀的女孩</div>';
-            moduleHtml += '<div class="good_price text-center">￥5.00</div>';
-            moduleHtml += '<div class="good_buy"></div>';
+            moduleHtml += '<div class="good_title text-center">'+module[i].title+'</div>';
+            moduleHtml += '<div class="good_price text-center">￥'+module[i].price+'</div>';
+            moduleHtml += '<div class="good_buy" onclick="buyThis(\''+printer[i].id+'\'")></div>';
             moduleHtml += '</div></div>';
         }
+        moduleHtml += '</div>';
         $(".module_wrapper").html(moduleHtml)
+    } else{
+        $(".module_wrapper").hide();
     }
 }
 
