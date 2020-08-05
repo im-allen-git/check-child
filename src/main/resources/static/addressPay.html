@@ -14,7 +14,7 @@
 <div class="main_wrapper">
     <div class="container">
         <div class="top_menu row clearfix">
-            <div class="top_menu_btn back col-xs-4 text-left iconfont" onclick="goBack();">&#xe720;</div>
+            <div class="top_menu_btn back col-xs-4 text-left iconfont" onclick="javascript:history.go(-1)">&#xe720;</div>
             <div class="top_menu_btn top_title col-xs-4 text-center">支付</div>
         </div>
         <div class="row receivedAddress">
@@ -29,7 +29,7 @@
                             <input type="text" placeholder="姓名" id="receiveName" oninput="ifInput(this)">
                         </div>
                         <div class="col-xs-6">
-                            <input type="number" placeholder="手机号" id="receivePhone" oninput="ifInput(this)">
+                            <input type="number" placeholder="手机号" id="receivePhone" oninput="ifInput(this)" maxlength="11">
                         </div>
                         <div class="col-xs-6">
                             <input type="text" placeholder="省份" id="receiveProvince" oninput="ifInput(this)">
