@@ -15,7 +15,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.util.Map;
-import java.util.Random;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * @author: JiangXW
@@ -27,11 +27,19 @@ import java.util.Random;
 @Component
 public class Slic3rUtil {
 
+    private static AtomicInteger aLong = new AtomicInteger(0);
+
     @Value("${file.upload-dir}")
     private String uploadDir;
 
-    @Value("${slic3r.console}")
-    private String slic3rConsole;
+    @Value("${slic3r.console1}")
+    private String slic3rConsole1;
+    @Value("${slic3r.console2}")
+    private String slic3rConsole2;
+    @Value("${slic3r.console3}")
+    private String slic3rConsole3;
+
+    private static final String CONFIG_INT_KEY = "configInt";
 
 
     private Path filePath;
@@ -65,16 +73,50 @@ public class Slic3rUtil {
         // 组合commandLine命令
 
         // F:\WorkSoft\Slic3r-1.3.0.64bit\Slic3r-console F:\3d\123.stl --layer-height 0.2 --output F:\456.gcode
-        StringBuffer sb = new StringBuffer(slic3rConsole);
+        StringBuffer sb = new StringBuffer(getSlic3rConsole());
         sb.append(" " + filePath);
+        // 判断是否精细打印
+        int configInt = 0;
+
+
         if (null != commandLineMap && commandLineMap.size() > 0) {
+            if (commandLineMap.containsKey(CONFIG_INT_KEY)) {
+                configInt = Integer.parseInt(commandLineMap.get(CONFIG_INT_KEY));
+                commandLineMap.remove(CONFIG_INT_KEY);
+            }
             commandLineMap.forEach((k, v) -> sb.append(" " + k + " " + v));
         }
-        sb.append(" --output " + outputPath + " --load config.ini");
+        if (configInt > 0) {
+            sb.append(" --output " + outputPath + " --load config.ini");
+        } else {
+            sb.append(" --output " + outputPath + " --load config1.ini");
+        }
+        // sb.append(" --output " + outputPath);
         System.err.println(sb.toString());
         return exportGcodeByCommandLine(sb.toString(), outputPath);
     }
 
+
+    private synchronized String getSlic3rConsole() {
+        String tempStr;
+        switch (aLong.get() % 3) {
+            case 0:
+                tempStr = slic3rConsole3;
+            case 1:
+                tempStr = slic3rConsole1;
+            case 2:
+                tempStr = slic3rConsole2;
+            default:
+                tempStr = slic3rConsole1;
+
+        }
+        int tempInt = aLong.addAndGet(1);
+        System.err.println("tempInt:" + tempInt);
+        if (aLong.get() > 100000000) {
+            aLong.set(1);
+        }
+        return tempStr;
+    }
 
     /**
      * 使用commandLine生成gcode文件
