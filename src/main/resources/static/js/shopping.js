@@ -9,7 +9,7 @@ function goBack(){
 function getItems(){
     $.ajax({
             type: "GET",
-            url:"../assets/shopping.json",
+            url:"./assets/shopping.json",
             data:{},
             dataType: "JSON",
             beforeSend: function () {
@@ -38,7 +38,7 @@ function itemHTML(data){
             printerHtml += '<div class="col-xs-8">';
             printerHtml += '<div class="good_title">'+printer[i].title+'</div>';
             printerHtml += '<div class="good_price">￥'+printer[i].price+'</div>';
-            printerHtml += '<div class="good_buy" onclick="buyThis(\''+printer[i].id+'\'")></div>';
+            printerHtml += '<div class="good_buy" onclick="buyThis(\''+printer[i].id+'\')"></div>';
             printerHtml += '</div></div></div>';
         }
         printerHtml += '</div>';
@@ -53,10 +53,11 @@ function itemHTML(data){
         for(var i in module){
             moduleHtml += '<div class="col-xs-6 col-sm-3 each_module">';
             moduleHtml += '<div class="each_module_wrapper">';
+
             moduleHtml += '<div class="img_wrapper"><img src="" alt=""></div>';
             moduleHtml += '<div class="good_title text-center">'+module[i].title+'</div>';
             moduleHtml += '<div class="good_price text-center">￥'+module[i].price+'</div>';
-            moduleHtml += '<div class="good_buy" onclick="buyThis(\''+printer[i].id+'\'")></div>';
+            moduleHtml += '<div class="good_buy" onclick="buyThis(\''+printer[i].id+'\')"></div>';
             moduleHtml += '</div></div>';
         }
         moduleHtml += '</div>';
