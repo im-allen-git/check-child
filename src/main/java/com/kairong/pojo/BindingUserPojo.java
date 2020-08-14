@@ -9,13 +9,13 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class BindingUserPojo {
 
-    private int id;
-
     // 用户id
-    private String userId;
+    private String user_id;
     // 绑定userid
-    private String bindingUserid;
+    private String binding_userid;
     // 创建时间
-    private String createTime;
+    private String create_time;
+    // 更新时间
+    private String update_time;
 
 }

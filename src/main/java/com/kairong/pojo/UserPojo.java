@@ -13,10 +13,10 @@ public class UserPojo implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    private int id;
+//    private int id;
 
     // 用户id
-    private String user_id;
+    private int user_id;
     // 昵称(默认手机号，第三方登录使用第三方昵称)
     private String nick_name;
     // 手机
@@ -35,5 +35,9 @@ public class UserPojo implements Serializable {
     private String number;
     // 创建时间
     private String create_time;
+    // 更新时间
+    private String update_time;
+    //链接状态
+    private String online_type;
 
 }
