@@ -93,28 +93,53 @@ public class UserController {
         }
     }
 
+//    @PostMapping("/weighingDataInsert")
+//    //称重设备插入 硬件调用接口
+//    public CommonResult weighingDataInsert(HttpServletRequest request, HttpServletResponse response,String deviceId,String createTime,String items,String weights) {
+//
+//        try {
+//            int count = 0;
+//            String[] aryItem =  items.split("-");
+//            String[] aryWeight =  weights.split("-");
+//            //查询设备对应的userId
+//            int userId = userService.getUserId(deviceId);
+//
+//            for(int i=0; i< aryItem.length; i++){
+//                count = userService.weighingDataInsert(String.valueOf(userId) , deviceId, aryItem[i],  aryWeight[i] ,createTime);
+//            }
+//            if (count > 0) {
+//                return CommonResult.success(1, count);
+//            } else {
+//                return CommonResult.success(0, null);
+//            }
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            log.error("weighingDataInsert, error:", deviceId, e);
+//            return CommonResult.failed(e.getMessage());
+//        }
+//    }
+
+
     @PostMapping("/weighingDataInsert")
     //称重设备插入 硬件调用接口
-    public CommonResult weighingDataInsert(HttpServletRequest request, HttpServletResponse response,String deviceId,String createTime,String items,String weights) {
+    public CommonResult weighingDataInsert(HttpServletRequest request, HttpServletResponse response,WeighingdataPojo weighingdataPojo) {
 
         try {
-            int count = 0;
-            String[] aryItem =  items.split("-");
-            String[] aryWeight =  weights.split("-");
             //查询设备对应的userId
-            int userId = userService.getUserId(deviceId);
+            int userId = userService.getUserId(weighingdataPojo.getMac());
 
-            for(int i=0; i< aryItem.length; i++){
-                count = userService.weighingDataInsert(String.valueOf(userId) , deviceId, aryItem[i],  aryWeight[i] ,createTime);
-            }
-            if (count > 0) {
-                return CommonResult.success(1, count);
+            weighingdataPojo.setUser_id(String.valueOf(userId));
+            // 插入数据
+            int id = userService.weighingdataAdd(weighingdataPojo);
+
+            if (id > 0) {
+                return CommonResult.success(1, id);
             } else {
                 return CommonResult.success(0, null);
             }
         } catch (Exception e) {
             e.printStackTrace();
-            log.error("weighingDataInsert, error:", deviceId, e);
+            log.error("weighingDataInsert, error:", weighingdataPojo, e);
             return CommonResult.failed(e.getMessage());
         }
     }
