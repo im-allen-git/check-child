@@ -29,8 +29,8 @@ public interface UserMapper {
 //    @Update("update android_user set pass_word = #{pass_word} where id = #{id}")
 //    int updateUserInfo(UserInfo userInfo);
 
-    @Update("update equipment set ip_address = #{ip},online_type='wifi' where mac = #{mac}")
-    int equipmentInfoUp(String ip,String mac);
+    @Update("update equipment set ip_address = #{ip_address},online_type=#{online_type} where mac = #{mac}")
+    int equipmentInfoUp(EquipmentPojo equipmentPojo);
 
     @Select("select user_id from equipment where mac = #{mac} limit 1")
     int getUserId(String mac);
@@ -117,6 +117,17 @@ public interface UserMapper {
     int updateDelWeighingData(WeighingdataPojo weighingdataPojo);
 
 
+
+
+    @Select("<script> select id,user_id,mac,name,item,type,weight,unit,waste_rate,number,create_time,del_status " +
+            " from weighing_data where user_id = #{user_id} and mac=#{mac}" +
+            "<if test='item!=null and item != &quot;&quot; '> and item = #{item} </if>" +
+            "<if test='type!=null and type != &quot;&quot; '> and type = #{type} </if> " +
+            "<if test='start_time!=null and start_time != &quot;&quot; '> and create_time &gt;= #{start_time} </if>" +
+            "<if test='end_time!=null and end_time != &quot;&quot; '> and create_time &lt;= #{end_time} </if>" +
+            " </script>")
+    List<WeighingdataPojo> getWeightingDataList(WeighingdataPojo weighingdataPojo);
+
     @Select("<script> select DATE_FORMAT(create_time,'%Y-%m-%d %H:%i') format_time,sum(weight) as group_weight,sum(weight)/sum(number) as avg_weight,type " +
             " from weighing_data where user_id = #{user_id} " +
             "<if test='item!=null and item != &quot;&quot; '> and item = #{item} </if>" +
@@ -124,13 +135,6 @@ public interface UserMapper {
             "<if test='start_time!=null and start_time != &quot;&quot; '> and create_time &gt;= #{start_time} </if>" +
             "<if test='end_time!=null and end_time != &quot;&quot; '> and create_time &lt;= #{end_time} </if>" +
             "<if test='start_time!=null and start_time != &quot;&quot; '>  GROUP BY DATE_FORMAT(create_time,'%Y-%m-%d %H') ORDER BY type desc ,create_time </if></script>")
-    List<WeighingdataPojo> getWeightingDataList(WeighingdataPojo weighingdataPojo);
-
-
-    @Select("<script> select id,user_id,mac,name,item,type,weight,unit,waste_rate,number,create_time,del_status " +
-            " from weighing_data where user_id = #{user_id} " +
-            "<if test='item!=null and item != &quot;&quot; '> and item = #{item} </if>" +
-            "<if test='type!=null and type != &quot;&quot; '> and type = #{type} </if> </script>")
     List<WeighingdataPojo> getWeightingDataCalculateList(WeighingdataPojo weighingdataPojo);
 
 

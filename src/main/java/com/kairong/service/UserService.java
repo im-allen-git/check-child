@@ -22,7 +22,7 @@ public interface UserService {
 //    int updateUserInfo(UserInfo userInfo);
 
     // 设备数据更新
-    int equipmentInfoUp(String ip,String mac);
+    int equipmentInfoUp(EquipmentPojo equipmentPojo);
 
     // 根据mac取得userid
     int getUserId(String mac);

@@ -77,10 +77,10 @@ public class UserController {
 
     @PostMapping("/equipmentInfoUp")
     //设备数据更新 硬件调用接口
-    public CommonResult equipmentInfoUp(HttpServletRequest request, HttpServletResponse response,String ip,String deviceId) {
+    public CommonResult equipmentInfoUp(HttpServletRequest request, HttpServletResponse response,EquipmentPojo equipmentPojo) {
 
         try {
-            int count = userService.equipmentInfoUp(ip,deviceId);
+            int count = userService.equipmentInfoUp(equipmentPojo);
             if (count > 0) {
                 return CommonResult.success(1, count);
             } else {
@@ -88,7 +88,7 @@ public class UserController {
             }
         } catch (Exception e) {
             e.printStackTrace();
-            log.error("equipmentInfoUp, error:", deviceId, e);
+            log.error("equipmentInfoUp, error:", equipmentPojo, e);
             return CommonResult.failed(e.getMessage());
         }
     }

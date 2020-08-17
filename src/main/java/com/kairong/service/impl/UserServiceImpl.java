@@ -45,8 +45,8 @@ public class UserServiceImpl implements UserService {
 
 
     @Override
-    public int equipmentInfoUp(String ip,String mac) {
-        return userMapper.equipmentInfoUp(ip,mac);
+    public int equipmentInfoUp(EquipmentPojo equipmentPojo) {
+        return userMapper.equipmentInfoUp(equipmentPojo);
     }
 
     @Override
