@@ -31,7 +31,7 @@ public class WeighingdataPojo {
     // 浪费比率
     private String waste_rate;
     // 进餐人数
-    private String number;
+    private int number;
     // 更新时间
     private String update_time;
     // 删除状态 0正常1逻辑删除

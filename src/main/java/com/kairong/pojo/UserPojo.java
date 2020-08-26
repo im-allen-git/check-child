@@ -39,5 +39,7 @@ public class UserPojo implements Serializable {
     private String update_time;
     //链接状态
     private String online_type;
+    //登陆类型
+    private int type;
 
 }

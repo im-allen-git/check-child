@@ -42,11 +42,11 @@ public interface UserMapper {
     @Select("select user_id from user_saz where mobile = #{mobile}")
     UserPojo checkUserIdExist(UserPojo userPojo);
 
-    @Insert("insert into user_saz(nick_name,mobile) values(#{nick_name},#{mobile})")
+    @Insert("insert into user_saz(nick_name,mobile,type) values(#{nick_name},#{mobile},#{type})")
     @Options(useGeneratedKeys = true, keyProperty = "user_id", keyColumn = "user_id")
     int saveUserDataBase(UserPojo userPojo);
 
-    @Select("select a.user_id,a.nick_name,a.mobile,a.sex,a.birthday,a.height,a.weight,a.waste_rate,a.number,DATE_FORMAT(a.create_time,'%Y-%m-%d %H:%i:%S') as create_time,b.online_type " +
+    @Select("select a.user_id,a.nick_name,a.mobile,a.sex,a.birthday,a.height,a.weight,a.waste_rate,a.number,DATE_FORMAT(a.create_time,'%Y-%m-%d %H:%i:%S') as create_time,b.online_type,a.type " +
             "from user_saz a LEFT JOIN equipment b on a.user_id = b.user_id where a.user_id = #{user_id} limit 1 ")
     UserPojo getUserInfoData(UserPojo userPojo);
 
@@ -58,6 +58,7 @@ public interface UserMapper {
             "<if test='weight!=null and weight != &quot;&quot; '> weight = #{weight}, </if>" +
             "<if test='waste_rate!=null and waste_rate != &quot;&quot;  '> waste_rate = #{waste_rate}, </if>" +
             "<if test='number!=null and number != &quot;&quot;'> number = #{number}, </if>" +
+            "<if test='type!=null and type != &quot;&quot;'> number = #{type}, </if>" +
             "  update_time= now() where user_id = #{user_id} </script>")
     int updateUserInfoDataBase(UserPojo userPojo);
 
@@ -77,7 +78,8 @@ public interface UserMapper {
     @Select("select count(0) from equipment where user_id = #{user_id} and mac = #{mac}  and item = #{item}  and name = #{name} ")
     int checkEquipmentDataBase(EquipmentPojo equipmentPojo);
 
-    @Delete("delete from equipment where mac = #{mac} and user_id = #{user_id} ")
+    @Delete("<script> delete from equipment where mac = #{mac} and user_id = #{user_id} " +
+            " <if test='item!=null and item != &quot;&quot; '> and item = #{item} </if> </script> " )
     int equipmentDel(EquipmentPojo equipmentPojo);
 
     @Select("select user_id,binding_userid from binding_user where user_id = #{user_id}")
@@ -95,7 +97,8 @@ public interface UserMapper {
     int updateEquipment(EquipmentPojo equipmentPojo);
 
 
-    @Select("select mac,name,user_id,item,unit,target,ip_address,online_type,service_id,characteristic_id,device_name from equipment where user_id = #{user_id}")
+    @Select("<script> select mac,name,user_id,item,unit,target,ip_address,online_type,service_id,characteristic_id,device_name,update_time from equipment where user_id = #{user_id} " +
+            "<if test='mac!=null and mac != &quot;&quot; '> and mac = #{mac} </if> </script>" )
     List<EquipmentPojo> getEquipmentDataList(EquipmentPojo equipmentPojo);
 
 
@@ -120,12 +123,13 @@ public interface UserMapper {
 
 
     @Select("<script> select id,user_id,mac,name,item,type,weight,unit,waste_rate,number,create_time,del_status " +
-            " from weighing_data where user_id = #{user_id} and mac=#{mac}" +
+            " from weighing_data where user_id = #{user_id} " +
+            "<if test='mac!=null and mac != &quot;&quot; '> and mac = #{mac} </if>" +
             "<if test='item!=null and item != &quot;&quot; '> and item = #{item} </if>" +
             "<if test='type!=null and type != &quot;&quot; '> and type = #{type} </if> " +
             "<if test='start_time!=null and start_time != &quot;&quot; '> and create_time &gt;= #{start_time} </if>" +
             "<if test='end_time!=null and end_time != &quot;&quot; '> and create_time &lt;= #{end_time} </if>" +
-            " </script>")
+            " order by create_time desc </script>")
     List<WeighingdataPojo> getWeightingDataList(WeighingdataPojo weighingdataPojo);
 
     @Select("<script> select DATE_FORMAT(create_time,'%Y-%m-%d %H:%i') format_time,sum(weight) as group_weight,sum(weight)/sum(number) as avg_weight,type " +

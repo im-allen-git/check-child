@@ -7,6 +7,7 @@ import com.kairong.pojo.UserPojo;
 import com.kairong.pojo.WeighingdataPojo;
 import com.kairong.service.UserService;
 import com.kairong.util.CommonResult;
+import com.kairong.util.TimeUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.Assert;
@@ -129,6 +130,7 @@ public class UserController {
             int userId = userService.getUserId(weighingdataPojo.getMac());
 
             weighingdataPojo.setUser_id(String.valueOf(userId));
+            weighingdataPojo.setCreate_time(TimeUtil.stampToDate(weighingdataPojo.getCreate_time()));
             // 插入数据
             int id = userService.weighingdataAdd(weighingdataPojo);
 
@@ -383,6 +385,7 @@ public class UserController {
         Assert.notNull(weighingdataPojo, "weighingdataPojo info is null");
         try {
 
+            weighingdataPojo.setCreate_time(TimeUtil.stampToDate(weighingdataPojo.getCreate_time()));
             // 保存称重信息数据 手动输入
             int id = userService.weighingdataAdd(weighingdataPojo);
             id = weighingdataPojo.getId();
