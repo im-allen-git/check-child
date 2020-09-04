@@ -95,7 +95,7 @@ public interface UserMapper {
             "<if test='online_type!=null and online_type != &quot;&quot; '> online_type = #{online_type}, </if>" +
             "<if test='ip_address!=null and ip_address != &quot;&quot; '> ip_address = #{ip_address}, </if>" +
             "  update_time= now() where user_id = #{user_id} " +
-            " <if test='item!=null and item != &quot;&quot; '> and item = #{item} </if> " +
+            " <if test='name!=null and name != &quot;&quot; '> and name = #{name} </if> " +
             " <if test='mac!=null and mac != &quot;&quot; '> and mac = #{mac}   </if> </script>")
     int updateEquipment(EquipmentPojo equipmentPojo);
 
