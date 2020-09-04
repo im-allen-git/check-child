@@ -46,8 +46,11 @@ public interface UserMapper {
     @Options(useGeneratedKeys = true, keyProperty = "user_id", keyColumn = "user_id")
     int saveUserDataBase(UserPojo userPojo);
 
-    @Select("select a.user_id,a.nick_name,a.mobile,a.sex,a.birthday,a.height,a.weight,a.waste_rate,a.number,DATE_FORMAT(a.create_time,'%Y-%m-%d %H:%i:%S') as create_time,b.online_type,a.type " +
-            "from user_saz a LEFT JOIN equipment b on a.user_id = b.user_id where a.user_id = #{user_id} limit 1 ")
+    @Select("<script> select a.user_id,a.nick_name,a.mobile,a.sex,a.birthday,a.height,a.weight,a.waste_rate,a.number,DATE_FORMAT(a.create_time,'%Y-%m-%d %H:%i:%S') as create_time,b.online_type,a.type " +
+            "from user_saz a LEFT JOIN equipment b on a.user_id = b.user_id where " +
+            " <if test='user_id!=null and user_id != &quot;&quot; '>  a.user_id = #{user_id} </if> " +
+            " <if test='mobile!=null and mobile != &quot;&quot; '>  a.mobile = #{mobile} </if> " +
+            " limit 1  </script> ")
     UserPojo getUserInfoData(UserPojo userPojo);
 
     @Update("<script> update user_saz set " +
@@ -98,7 +101,8 @@ public interface UserMapper {
 
 
     @Select("<script> select mac,name,user_id,item,unit,target,ip_address,online_type,service_id,characteristic_id,device_name,update_time from equipment where user_id = #{user_id} " +
-            "<if test='mac!=null and mac != &quot;&quot; '> and mac = #{mac} </if> </script>" )
+            "<if test='mac!=null and mac != &quot;&quot; '> and mac = #{mac} </if> " +
+            "<if test='item!=null and item != &quot;&quot; '> and item = #{item} </if> </script>" )
     List<EquipmentPojo> getEquipmentDataList(EquipmentPojo equipmentPojo);
 
 
@@ -123,7 +127,7 @@ public interface UserMapper {
 
 
     @Select("<script> select id,user_id,mac,name,item,type,weight,unit,waste_rate,number,create_time,del_status " +
-            " from weighing_data where user_id = #{user_id} " +
+            " from weighing_data where del_status=0 and user_id = #{user_id} " +
             "<if test='mac!=null and mac != &quot;&quot; '> and mac = #{mac} </if>" +
             "<if test='item!=null and item != &quot;&quot; '> and item = #{item} </if>" +
             "<if test='type!=null and type != &quot;&quot; '> and type = #{type} </if> " +
@@ -133,7 +137,7 @@ public interface UserMapper {
     List<WeighingdataPojo> getWeightingDataList(WeighingdataPojo weighingdataPojo);
 
     @Select("<script> select DATE_FORMAT(create_time,'%Y-%m-%d %H:%i') format_time,sum(weight) as group_weight,sum(weight)/sum(number) as avg_weight,type " +
-            " from weighing_data where user_id = #{user_id} " +
+            " from weighing_data where del_status=0 and user_id = #{user_id} " +
             "<if test='item!=null and item != &quot;&quot; '> and item = #{item} </if>" +
             "<if test='type!=null and type != &quot;&quot; '> and type = #{type} </if>" +
             "<if test='start_time!=null and start_time != &quot;&quot; '> and create_time &gt;= #{start_time} </if>" +
@@ -143,7 +147,7 @@ public interface UserMapper {
 
 
     @Select("<script> select id,user_id,mac,item,type,weight,unit,create_time,waste_rate,number,update_time,del_status " +
-            " from weighing_data where user_id = #{user_id} " +
+            " from weighing_data where del_status=0 and user_id = #{user_id} " +
             "<if test='item!=null and item != &quot;&quot; '> and item = #{item} </if>" +
             "<if test='type!=null and type != &quot;&quot; '> and type = #{type} </if>" +
             "<if test='start_time!=null and start_time != &quot;&quot; '> and create_time &gt;= #{start_time} </if>" +
@@ -157,7 +161,7 @@ public interface UserMapper {
             "<if test='flag_type==2 '>  ,WEEK(create_time) as format_time,min(create_time) as start_week,max(create_time) as end_week  </if>" +
             "<if test='flag_type==3 '>  ,MONTH(create_time) as format_time  </if>" +
             "<if test='flag_type==4 '>  ,YEAR(create_time) as format_time  </if>" +
-            " from weighing_data where user_id = #{user_id} " +
+            " from weighing_data where del_status=0 and user_id = #{user_id} " +
             "<if test='item!=null and item != &quot;&quot; '> and item = #{item} </if>" +
             "<if test='type!=null and type != &quot;&quot; '> and type = #{type} </if>" +
             "<if test='start_time!=null and start_time != &quot;&quot; '> and create_time &gt;= #{start_time} </if>" +

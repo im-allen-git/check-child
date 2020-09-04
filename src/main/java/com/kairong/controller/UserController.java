@@ -244,16 +244,33 @@ public class UserController {
         Assert.notNull(bindingUserPojo, "bindingUserPojo info is null");
         try {
 
-            // 检查绑定用户是否存在
-            int count = userService.checkbingIdExist(bindingUserPojo);
-            if(count ==0){
-                // 保存群组共享用户数据
-                count = userService.saveBindingUserDataBase(bindingUserPojo);
+            int count =0;
+            int checkFlag =0;
+            //检查绑定的手机是否是我们app用户
+            UserPojo userPojo =new UserPojo();
+            userPojo.setMobile(bindingUserPojo.getBinding_userid());
+            UserPojo user = userService.checkUserIdExist(userPojo);
+            if(user != null){
+                // 检查绑定用户是否存在
+                checkFlag = userService.checkbingIdExist(bindingUserPojo);
+                if(checkFlag ==0){
+                    // 保存群组共享用户数据
+                    count = userService.saveBindingUserDataBase(bindingUserPojo);
+                }
+            }else{
+                checkFlag = 3;
             }
-
-            if (count > 0) {
+            if (checkFlag > 0) {
+                if(checkFlag==3){
+                    //绑定的手机不是我们app用户
+                    return CommonResult.success(3, checkFlag);
+                }else{
+                    //绑定用户已存在
+                    return CommonResult.success(2, checkFlag);
+                }
+            } else if (count>0) {
                 return CommonResult.success(1, count);
-            } else {
+            } else{
                 return CommonResult.success(0, null);
             }
         } catch (Exception e) {
