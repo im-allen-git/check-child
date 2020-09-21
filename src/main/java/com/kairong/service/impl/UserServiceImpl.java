@@ -123,6 +123,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public int updateEquipments(EquipmentPojo equipmentPojo) {
+        return userMapper.updateEquipments(equipmentPojo);
+    }
+
+    @Override
     public List<EquipmentPojo> getEquipmentDataList(EquipmentPojo equipmentPojo) {
         return userMapper.getEquipmentDataList(equipmentPojo);
     }

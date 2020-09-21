@@ -66,6 +66,9 @@ public interface UserService {
     // 设备信息修改
     int updateEquipment(EquipmentPojo equipmentPojo);
 
+    // 设备信息修改
+    int updateEquipments(EquipmentPojo equipmentPojo);
+
     // 查询设备信息数据
     List<EquipmentPojo> getEquipmentDataList(EquipmentPojo equipmentPojo);
 

@@ -383,6 +383,28 @@ public class UserController {
         }
     }
 
+    @PostMapping("/updateEquipments")
+    // 更新设备信息数据左设备变换右设备
+    public CommonResult updateEquipments(HttpServletRequest request, HttpServletResponse response,EquipmentPojo equipmentPojo) {
+
+        Assert.notNull(equipmentPojo, "equipmentPojo info is null");
+        try {
+
+            // 保存设备信息数据
+            int count = userService.updateEquipments(equipmentPojo);
+
+            if (count > 0) {
+                return CommonResult.success(1, count);
+            } else {
+                return CommonResult.success(0, null);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            log.error("updateEquipments, error:", equipmentPojo, e);
+            return CommonResult.failed(e.getMessage());
+        }
+    }
+
 
     @PostMapping("/getEquipmentDataList")
     // 查询设备信息数据

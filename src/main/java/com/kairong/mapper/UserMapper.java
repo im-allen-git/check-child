@@ -46,7 +46,7 @@ public interface UserMapper {
     @Options(useGeneratedKeys = true, keyProperty = "user_id", keyColumn = "user_id")
     int saveUserDataBase(UserPojo userPojo);
 
-    @Select("<script> select a.user_id,a.nick_name,a.mobile,a.sex,a.birthday,a.height,a.weight,a.waste_rate,a.number,DATE_FORMAT(a.create_time,'%Y-%m-%d %H:%i:%S') as create_time,b.online_type,a.type " +
+    @Select("<script> select a.user_id,a.nick_name,a.mobile,a.sex,a.birthday,a.height,a.weight,a.waste_rate,a.number,DATE_FORMAT(a.create_time,'%Y-%m-%d %H:%i:%S') as create_time,b.online_type,a.type,b.ip_address " +
             "from user_saz a LEFT JOIN equipment b on a.user_id = b.user_id where " +
             " <if test='user_id!=null and user_id != &quot;&quot; '>  a.user_id = #{user_id} </if> " +
             " <if test='mobile!=null and mobile != &quot;&quot; '>  a.mobile = #{mobile} </if> " +
@@ -98,6 +98,19 @@ public interface UserMapper {
             " <if test='name!=null and name != &quot;&quot; '> and name = #{name} </if> " +
             " <if test='mac!=null and mac != &quot;&quot; '> and mac = #{mac}   </if> </script>")
     int updateEquipment(EquipmentPojo equipmentPojo);
+
+    @Update("<script> update equipment set " +
+            "<if test='set_item!=null and set_item != &quot;&quot; '> item = #{set_item}, </if>" +
+            "<if test='unit!=null and unit != &quot;&quot; '> unit = #{unit}, </if>" +
+            "<if test='target!=null and target != &quot;&quot; '> target = #{target}, </if>" +
+            "<if test='online_type!=null and online_type != &quot;&quot; '> online_type = #{online_type}, </if>" +
+            "<if test='ip_address!=null and ip_address != &quot;&quot; '> ip_address = #{ip_address}, </if>" +
+            "<if test='set_name!=null and set_name != &quot;&quot; '> name = #{set_name}, </if>" +
+            "  update_time= now() where user_id = #{user_id} " +
+            " <if test='name!=null and name != &quot;&quot; '> and name = #{name} </if> " +
+            " <if test='item!=null and item != &quot;&quot; '> and item = #{item} </if> " +
+            " <if test='mac!=null and mac != &quot;&quot; '> and mac = #{mac}   </if> </script>")
+    int updateEquipments(EquipmentPojo equipmentPojo);
 
 
     @Select("<script> select mac,name,user_id,item,unit,target,ip_address,online_type,service_id,characteristic_id,device_name,update_time from equipment where user_id = #{user_id} " +

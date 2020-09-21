@@ -37,6 +37,9 @@ public class EquipmentPojo {
     private String characteristic_id;
     // 设备名
     private String device_name;
-
+    // 要变换称的名字
+    private String set_name;
+    // 要变换称的项目
+    private String set_item;
 
 }
