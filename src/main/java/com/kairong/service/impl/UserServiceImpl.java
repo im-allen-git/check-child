@@ -193,6 +193,12 @@ public class UserServiceImpl implements UserService {
         return userMapper.getWeightingDataCalculateList(weighingdataPojo);
     }
 
+    @Override
+    public List<WeighingdataPojo> getCalculateList(WeighingdataPojo weighingdataPojo) {
+        return userMapper.getCalculateList(weighingdataPojo);
+    }
+
+
 
     @Override
     public List<WeighingdataPojo> getWeightingDataListByHour(WeighingdataPojo weighingdataPojo) {

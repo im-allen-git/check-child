@@ -424,7 +424,7 @@ public class UserController {
         Assert.notNull(weighingdataPojo, "weighingdataPojo info is null");
         try {
 
-            weighingdataPojo.setCreate_time(TimeUtil.stampToDate(weighingdataPojo.getCreate_time()));
+//            weighingdataPojo.setCreate_time(TimeUtil.stampToDate(weighingdataPojo.getCreate_time()));
             // 保存称重信息数据 手动输入
             int id = userService.weighingdataAdd(weighingdataPojo);
             id = weighingdataPojo.getId();
@@ -519,11 +519,22 @@ public class UserController {
     }
 
     @PostMapping("/getWeightingDataCalculateList")
-    // 查询称重信息数据第一餐第二餐数据
+    // 查询称重信息数据
     public String getWeightingDataCalculateList(HttpServletRequest request, HttpServletResponse response,WeighingdataPojo weighingdataPojo) {
 
         // 查询称重信息数据
         List<WeighingdataPojo>  weighingdataPojoList= userService.getWeightingDataCalculateList(weighingdataPojo);
+
+        return JSON.toJSONString(weighingdataPojoList);
+
+    }
+
+    @PostMapping("/getCalculateList")
+    // 查询称重信息数据第一餐第二餐时间
+    public String getCalculateList(HttpServletRequest request, HttpServletResponse response,WeighingdataPojo weighingdataPojo) {
+
+        // 查询称重信息数据
+        List<WeighingdataPojo>  weighingdataPojoList= userService.getCalculateList(weighingdataPojo);
 
         return JSON.toJSONString(weighingdataPojoList);
 

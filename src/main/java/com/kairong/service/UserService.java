@@ -90,6 +90,8 @@ public interface UserService {
     // 查询称重信息数据计算后
     List<WeighingdataPojo> getWeightingDataCalculateList(WeighingdataPojo weighingdataPojo);
 
+    // 查询称重信息第几餐时间
+    List<WeighingdataPojo> getCalculateList(WeighingdataPojo weighingdataPojo);
 
     // 查询称重信息数据编辑修改查询
     List<WeighingdataPojo> getWeightingDataListByHour(WeighingdataPojo weighingdataPojo);

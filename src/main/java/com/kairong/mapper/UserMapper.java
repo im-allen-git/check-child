@@ -149,14 +149,20 @@ public interface UserMapper {
             " order by create_time desc </script>")
     List<WeighingdataPojo> getWeightingDataList(WeighingdataPojo weighingdataPojo);
 
-    @Select("<script> select DATE_FORMAT(create_time,'%Y-%m-%d %H:%i') format_time,sum(weight) as group_weight,sum(weight)/sum(number) as avg_weight,type " +
+    @Select("<script> select DATE_FORMAT(create_time,'%Y-%m-%d %H:%i') format_time,weight,waste_rate,number,type,id " +
             " from weighing_data where del_status=0 and user_id = #{user_id} " +
             "<if test='item!=null and item != &quot;&quot; '> and item = #{item} </if>" +
             "<if test='type!=null and type != &quot;&quot; '> and type = #{type} </if>" +
             "<if test='start_time!=null and start_time != &quot;&quot; '> and create_time &gt;= #{start_time} </if>" +
             "<if test='end_time!=null and end_time != &quot;&quot; '> and create_time &lt;= #{end_time} </if>" +
-            "<if test='start_time!=null and start_time != &quot;&quot; '>  GROUP BY DATE_FORMAT(create_time,'%Y-%m-%d %H') ORDER BY type desc ,create_time </if></script>")
+            "<if test='start_time!=null and start_time != &quot;&quot; '> ORDER BY type desc ,create_time </if></script>")
     List<WeighingdataPojo> getWeightingDataCalculateList(WeighingdataPojo weighingdataPojo);
+
+
+
+    @Select("<script> select DATE_FORMAT(create_time,'%Y-%m-%d %H:%i') format_time " +
+            " from weighing_data where del_status=0 and user_id = #{user_id} GROUP BY DATE_FORMAT(create_time,'%Y-%m-%d %H') </script>")
+    List<WeighingdataPojo> getCalculateList(WeighingdataPojo weighingdataPojo);
 
 
     @Select("<script> select id,user_id,mac,item,type,weight,unit,create_time,waste_rate,number,update_time,del_status " +
