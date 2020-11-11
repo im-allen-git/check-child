@@ -79,7 +79,7 @@ var cameraSideIndex = 150;
 var currentBuildType = 0;//0: 普通模式 1：minecraft
 $( function () {
 	listModule();
-//    getLocalAppSTL();
+   // getLocalAppSTL();
 	shapesMain.addEventListener( "touchstart", function ( e ) {
 		$( ".zoom_options,.color_wrapper" ).hide();//隐藏子窗口
 	} );
@@ -597,7 +597,7 @@ function getLocalAppSTL(localStl){
 			}
 			stlListHTML += '<input class="this_code" type="hidden" value="' + stlListIndex + '">';
 			stlListHTML += '<input class="this_module" type="hidden" value="3">';
-			stlListHTML += '<input class="this_url" type="hidden" value="' + stlList[i].realStlName + '">';
+			stlListHTML += '<input class="this_url" type="hidden" value="' + stlList[i].urlStl + '">';
 			// stlListHTML += '<div class="drag sprint sprint_' + stlList[i].title + ' sprintY"></div>';
 			stlListHTML += '<div class="img_wrapper"><img src="file://' + stlList[i].localImg + '" alt="' + stlList[i].localImg + '" class="drag sprint"></div>';
 			var name  =stlList[i].sourceStlName.split(".stl")[0];
@@ -637,6 +637,7 @@ function saveModuleShow( type ) {
 			$( "#save_name" ).val( getTimeStr() );
 			$( ".save_name_ok" ).attr( 'onclick', "exportMoudle(0)" );
 			$( ".save_name_module,.save_name_module_bg" ).show();
+			$("#save_name").focus();
 		} else {
 			$( ".save_name_module,.save_name_module_bg" ).hide();
 		}
@@ -2033,7 +2034,11 @@ async function loadLocalSTL( thisSTL) {
 	$( "#loading_data" ).show();
 	shootedFlag = false;
 	var loader = new THREE.STLLoader();
+	log("loadLocalStl before");
+	log("thisSTL:" + thisSTL);
 	await loader.load( thisSTL, function ( geometry ) {
+		log("loadLocalStl")
+		log(geometry)
 		currentObj = geometry;
 	} );
 }
@@ -2287,10 +2292,15 @@ function shapesController( type ) {//type 0: normal
 	if (! $( ".show_more" ).hasClass( "show_more_close" )) {
 		$( ".obj_control" ).css( { width: window.innerWidth - 100 } );
 	}
+	log("shapesController")
+	log(currentBuildType)
 	if(currentBuildType == 0){
+			log("show")
+
 		$( ".obj_control_wrapper" ).show();
 	}
 	else{
+		log("hide")
 		$( ".obj_control_wrapper" ).hide();
 	}
 

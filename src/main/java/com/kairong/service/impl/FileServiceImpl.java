@@ -6,7 +6,7 @@ import com.kairong.util.ZipFileUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.util.ResourceUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
@@ -34,7 +34,7 @@ public class FileServiceImpl implements FileService {
 
 
     @Override
-    public String saveAndGenGcode(MultipartFile file, Map<String, String> commandLineMap) throws IOException {
+    public String saveAndGenGcodeAndroid(MultipartFile file, Map<String, String> commandLineMap) throws IOException {
 
         /*if (file.getOriginalFilename().endsWith(".png")) {
             return saveImg(file);
@@ -42,14 +42,57 @@ public class FileServiceImpl implements FileService {
 
         String rsPath = null;
 
-        String filePath = slic3rUtil.getFilePath(Objects.requireNonNull(file.getOriginalFilename()));
+        System.err.println("originalFilename:" + file.getOriginalFilename());
+        String filePath = slic3rUtil.getAndroidFilePath(Objects.requireNonNull(file.getOriginalFilename()));
         File saveFile = new File(filePath);
         if (!saveFile.getParentFile().exists() || !saveFile.getParentFile().isDirectory()) {
             saveFile.getParentFile().mkdirs();
         }
         file.transferTo(saveFile);
 
-        String stlUnZipPath = filePath.replace(".zip", "");
+        String stlUnZipPath = filePath.replace(".zip", ".stl");
+
+
+        ZipFileUtil.upZipFile(saveFile, saveFile.getParentFile().getAbsolutePath().replace("\\", "/"));
+        //解压文件
+        File stlUnZip = new File(stlUnZipPath);
+
+        if (stlUnZip.exists() && stlUnZip.isFile()) {
+            // 准备生成的gcode文件
+            String stlGcode = stlUnZipPath.replace("stl", "gcode");
+            boolean suc = slic3rUtil.exportGcode(stlUnZipPath, stlGcode, commandLineMap);
+            if (suc) {
+                ZipFileUtil.ZipFolder(stlGcode, stlGcode + ".zip");
+                File gcodeZipFile = new File(stlGcode);
+                if (gcodeZipFile.exists() && gcodeZipFile.isFile()) {
+                    rsPath = stlGcode + ".zip";
+                }
+            }
+        }
+        return rsPath;
+    }
+
+
+    @Override
+    public String saveAndGenGcodeIos(MultipartFile file, Map<String, String> commandLineMap, String uuid) throws IOException {
+
+        /*if (file.getOriginalFilename().endsWith(".png")) {
+            return saveImg(file);
+        }*/
+
+        String rsPath = null;
+
+        System.err.println("originalFilename:" + file.getOriginalFilename());
+        String filePath = slic3rUtil.getIosFilePath(Objects.requireNonNull(file.getOriginalFilename()), uuid);
+        File saveFile = new File(filePath);
+        if (!saveFile.getParentFile().exists() || !saveFile.getParentFile().isDirectory()) {
+            saveFile.getParentFile().mkdirs();
+        }
+
+
+        file.transferTo(saveFile);
+
+        String stlUnZipPath = filePath.replace(".zip", ".stl");
 
 
         ZipFileUtil.upZipFile(saveFile, saveFile.getParentFile().getAbsolutePath().replace("\\", "/"));
@@ -75,7 +118,7 @@ public class FileServiceImpl implements FileService {
     private String saveImg(MultipartFile file) {
         String filePath = null;
         try {
-            filePath = slic3rUtil.getFilePath(Objects.requireNonNull(file.getOriginalFilename()));
+            filePath = slic3rUtil.getAndroidFilePath(Objects.requireNonNull(file.getOriginalFilename()));
             File saveFile = new File(filePath);
             if (!saveFile.getParentFile().exists() || !saveFile.getParentFile().isDirectory()) {
                 saveFile.getParentFile().mkdirs();
@@ -88,9 +131,14 @@ public class FileServiceImpl implements FileService {
     }
 
     @Override
-    public Resource loadFileAsResource(String fileName) throws Exception {
-        return slic3rUtil.loadFileAsResource(fileName);
+    public Resource loadAndroidFileAsResource(String fileName) throws Exception {
+        return slic3rUtil.loadAndroidFileAsResource(fileName);
     }
 
+
+    @Override
+    public Resource loadIosFileAsResource(String fileName, String uuid) throws Exception {
+        return slic3rUtil.loadIosFileAsResource(fileName, uuid);
+    }
 
 }

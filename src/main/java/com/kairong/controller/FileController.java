@@ -18,8 +18,10 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * @author: JiangXW
@@ -35,17 +37,19 @@ public class FileController {
     @Autowired
     private FileService fileService;
 
-    @Value("${file.upload-dir}")
+    @Value("${file.upload-dir.android}")
     private String uploadDir;
 
 
-    @PostMapping("/uploadFileAndGenGcode")
-    public CommonResult uploadFileAndGenGcode(HttpServletRequest request, @RequestParam("file") MultipartFile file) {
+    @PostMapping("/uploadFileAndGenGcodeAndrioid")
+    public CommonResult uploadFileAndGenGcodeAndrioid(HttpServletRequest request, @RequestParam("file") MultipartFile file) {
 
         try {
             // , @RequestParam("commandLineMap") Map<String, String> commandLineMap
 
             Assert.notNull(file, "file null");
+
+            request.getParameterMap().forEach((k, v) -> System.err.println("k:" + k + ",v:" + Arrays.toString(v)));
 
             String parameter = request.getParameter("commandLineMap");
             Map<String, String> commandLineMap = new HashMap<>();
@@ -54,7 +58,7 @@ public class FileController {
                 jsonObject.forEach((k, v) -> commandLineMap.put(k, v.toString()));
             }
 
-            String fileName = fileService.saveAndGenGcode(file, commandLineMap);
+            String fileName = fileService.saveAndGenGcodeAndroid(file, commandLineMap);
             if (null != fileName) {
                 return CommonResult.success(fileName);
             } else {
@@ -68,16 +72,80 @@ public class FileController {
     }
 
 
-    @GetMapping("/downloadFile")
-    public ResponseEntity<Resource> downloadFile(@RequestParam(name = "fileName") String fileName,
-                                                 HttpServletRequest request, HttpServletResponse response) throws Exception {
+    @PostMapping("/uploadFileAndGenGcodeIos")
+    public CommonResult uploadFileAndGenGcodeIos(HttpServletRequest request, @RequestParam("file") MultipartFile file) {
+
+        try {
+            // , @RequestParam("commandLineMap") Map<String, String> commandLineMap
+
+            Assert.notNull(file, "file null");
+
+            request.getParameterMap().forEach((k, v) -> System.err.println("k:" + k + ",v:" + Arrays.toString(v)));
+
+            String parameter = request.getParameter("commandLineMap");
+            Map<String, String> commandLineMap = new HashMap<>();
+            if (StringUtils.isNotBlank(parameter)) {
+                JSONObject jsonObject = JSONObject.parseObject(parameter);
+                jsonObject.forEach((k, v) -> commandLineMap.put(k, v.toString()));
+            }
+
+            String uuid = request.getParameter("uuid");
+            if (StringUtils.isBlank(uuid)) {
+                return CommonResult.failed("uuid null");
+            }
+
+            String fileName = fileService.saveAndGenGcodeIos(file, commandLineMap, uuid);
+            if (null != fileName) {
+                return CommonResult.success(fileName);
+            } else {
+                return CommonResult.failed("uploadFileAndGenGcodeIos error: no file");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            log.error("uploadFileAndGenGcodeIos, error", e);
+            return CommonResult.failed(e.getMessage());
+        }
+    }
+
+
+    @GetMapping("/downloadFileAndroid")
+    public ResponseEntity<Resource> downloadAndroidFile(@RequestParam(name = "fileName") String fileName,
+                                                        HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         Assert.notNull(fileName, "fileName null");
         // Load file as Resource
-        Resource resource = fileService.loadFileAsResource(fileName);
+        Resource resource = fileService.loadAndroidFileAsResource(fileName);
         String contentType = null;
         try {
+            // Try to determine file's content type
+            contentType = request.getServletContext().getMimeType(resource.getFile().getAbsolutePath());
+            // Fallback to the default content type if type could not be determined
+            if (contentType == null) {
+                contentType = "application/octet-stream";
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            log.error("downloadFile fileName[{}]", fileName, e);
+        }
+        response.setStatus(200);
+        return ResponseEntity.ok()
+                .contentType(MediaType.parseMediaType(contentType))
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"")
+                .body(resource);
 
+    }
+
+    @GetMapping("/downloadFileIos")
+    public ResponseEntity<Resource> downloadIosFile(@RequestParam(name = "fileName") String fileName,
+                                                    @RequestParam(name = "uuid") String uuid,
+                                                    HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+        Assert.notNull(fileName, "fileName null");
+        // Assert.notNull(uuid, "uuid null");
+        // Load file as Resource
+        Resource resource = fileService.loadIosFileAsResource(fileName, uuid);
+        String contentType = null;
+        try {
             // Try to determine file's content type
             contentType = request.getServletContext().getMimeType(resource.getFile().getAbsolutePath());
             // Fallback to the default content type if type could not be determined
@@ -118,5 +186,6 @@ public class FileController {
             return CommonResult.failed(e.getMessage());
         }
     }
+
 
 }

@@ -24,3 +24,7 @@ input {background:none;outline: none;color:#333;padding:0 .1rem;width:100%;-webk
 .wechat_pay,.alipay_pay{color:#00ac1c;font-size: .35rem;height:.5rem;line-height: .5rem}
 .alipay_pay{color:#239fdb;}
 .pay_now_btn { width: 100%; background: #ffc000; text-align: center; height: .6rem; line-height: .6rem; border-radius: 5px; margin: .2rem auto; font-size: .2rem; }
+.note{color:red;padding: 0 .1rem;}
+
+#loading_data {display:none;position: fixed;top: 0;right: 0;left: 0;bottom:0;background:#FFF;opacity: .7;z-index: 999;}
+#loading_data img{position: absolute;top: 48%;left: 44%;}

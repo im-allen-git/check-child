@@ -29,8 +29,10 @@ public class Slic3rUtil {
 
     private static AtomicInteger aLong = new AtomicInteger(0);
 
-    @Value("${file.upload-dir}")
-    private String uploadDir;
+    @Value("${file.upload-dir.android}")
+    private String uploadDirAndroid;
+    @Value("${file.upload-dir.ios}")
+    private String uploadDirIos;
 
     @Value("${slic3r.console1}")
     private String slic3rConsole1;
@@ -42,7 +44,8 @@ public class Slic3rUtil {
     private static final String CONFIG_INT_KEY = "configInt";
 
 
-    private Path filePath;
+    private Path fileAndroidPath;
+    private Path fileIosPath;
 
     /**
      * 生成上传的文件名称全路径
@@ -50,7 +53,7 @@ public class Slic3rUtil {
      * @param fileName
      * @return
      */
-    public String getFilePath(String fileName) {
+    public String getAndroidFilePath(String fileName) {
 
         String month = TimeUtil.getTimeWithYearAndMonth(LocalDateTime.now());
         // Random random = new Random();
@@ -58,7 +61,18 @@ public class Slic3rUtil {
 
         // String endSuffix = fileName.substring(fileName.lastIndexOf("."));
         // return uploadDir.replace("\\", "/") + "/" + month + "/" + System.currentTimeMillis() + "_" + nextInt + endSuffix;
-        return uploadDir.replace("\\", "/") + "/" + month + "/" + fileName;
+        if (fileName.contains("/")) {
+            fileName = fileName.substring(fileName.lastIndexOf("/") + 1);
+        }
+        return uploadDirAndroid.replace("\\", "/") + "/" + month + "/" + fileName;
+    }
+
+    public String getIosFilePath(String fileName, String uuid) {
+
+        if (fileName.contains("/")) {
+            fileName = fileName.substring(fileName.lastIndexOf("/") + 1);
+        }
+        return uploadDirIos.replace("\\", "/") + getIosUUid(uuid) + "/" + fileName;
     }
 
     /**
@@ -102,12 +116,16 @@ public class Slic3rUtil {
         switch (aLong.get() % 3) {
             case 0:
                 tempStr = slic3rConsole3;
+                break;
             case 1:
                 tempStr = slic3rConsole1;
+                break;
             case 2:
                 tempStr = slic3rConsole2;
+                break;
             default:
                 tempStr = slic3rConsole1;
+                break;
 
         }
         int tempInt = aLong.addAndGet(1);
@@ -177,12 +195,12 @@ public class Slic3rUtil {
         return file.exists() && !file.isDirectory();
     }
 
-    public Resource loadFileAsResource(String fileName) throws Exception {
+    public Resource loadAndroidFileAsResource(String fileName) throws Exception {
         try {
-            if (null == filePath) {
-                filePath = Paths.get(uploadDir).toAbsolutePath().normalize();
+            if (null == fileAndroidPath) {
+                fileAndroidPath = Paths.get(uploadDirAndroid).toAbsolutePath().normalize();
             }
-            Path findPath = filePath.resolve(fileName).normalize();
+            Path findPath = fileAndroidPath.resolve(fileName).normalize();
             Resource resource = new UrlResource(findPath.toUri());
             if (resource.exists()) {
                 return resource;
@@ -192,5 +210,27 @@ public class Slic3rUtil {
         } catch (MalformedURLException ex) {
             throw new Exception("File not found " + fileName, ex);
         }
+    }
+
+    public Resource loadIosFileAsResource(String fileName, String uuid) throws Exception {
+        try {
+            if (null == fileIosPath) {
+                fileIosPath = Paths.get(uploadDirIos + "/" + getIosUUid(uuid)).toAbsolutePath().normalize();
+            }
+            Path findPath = fileIosPath.resolve(fileName).normalize();
+            Resource resource = new UrlResource(findPath.toUri());
+            if (resource.exists()) {
+                return resource;
+            } else {
+                throw new Exception("File not found " + fileName);
+            }
+        } catch (MalformedURLException ex) {
+            throw new Exception("File not found " + fileName, ex);
+        }
+    }
+
+
+    private String getIosUUid(String uuid) {
+        return "/" + uuid.substring(0, 2) + "/" + uuid;
     }
 }

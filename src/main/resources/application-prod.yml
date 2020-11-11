@@ -1,0 +1,42 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://192.168.1.29:3306/front_crossshop?useUnicode=true&allowMultiQueries=true&useSSL=false
+    username: test
+    password: root@123
+  resources:
+    static-locations=: file:F:/threeModel/3dmodel/static/**
+
+  # 开启 multipart 上传功能
+  servlet:
+    multipart:
+      enabled: true
+      # 文件写入磁盘的阈值
+      file-size-threshold: 10KB
+      # 最大文件大小
+      max-file-size: 200MB
+      # 最大请求大小
+      max-request-size: 215MB
+
+
+server:
+  port: 448
+  ssl:
+    key-store-type: JKS
+    key-store: F:/threeModel/allenjiang.keystore
+    enabled: true
+    key-store-password: 147258369
+    key-alias: allenjiang
+
+
+## 文件存储所需参数
+# 所有通过 REST APIs 上传的文件都将存储在此目录下
+file:
+  upload-dir:
+    android: F:/threeModel/3dmodel/static/android
+      ios: F:/threeModel/3dmodel/static/ios
+
+slic3r:
+  console1: F:/WorkSoft/Slic3rList/Slic3r-1301/Slic3r-console
+  console2: F:/WorkSoft/Slic3rList/Slic3r-1302/Slic3r-console
+  console3: F:/WorkSoft/Slic3rList/Slic3r-1303/Slic3r-console

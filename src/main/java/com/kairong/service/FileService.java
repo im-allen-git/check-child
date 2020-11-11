@@ -15,7 +15,11 @@ import java.util.Map;
 public interface FileService {
 
 
-    String saveAndGenGcode(MultipartFile file, Map<String, String> commandLineMap) throws IOException;
+    String saveAndGenGcodeAndroid(MultipartFile file, Map<String, String> commandLineMap) throws IOException;
 
-    Resource loadFileAsResource(String filePath) throws Exception;
+    String saveAndGenGcodeIos(MultipartFile file, Map<String, String> commandLineMap, String uuid) throws IOException;
+
+    Resource loadAndroidFileAsResource(String filePath) throws Exception;
+
+    Resource loadIosFileAsResource(String filePath, String uuid) throws Exception;
 }
