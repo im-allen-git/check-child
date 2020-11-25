@@ -50,7 +50,8 @@ public class FileServiceImpl implements FileService {
         }
         file.transferTo(saveFile);
 
-        String stlUnZipPath = filePath.replace(".zip", ".stl");
+        String stlUnZipPath = filePath.substring(0, filePath.indexOf(".")) + ".stl" ;
+        // filePath.replace(".zip", ".stl");
 
 
         ZipFileUtil.upZipFile(saveFile, saveFile.getParentFile().getAbsolutePath().replace("\\", "/"));

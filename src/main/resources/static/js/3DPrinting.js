@@ -257,7 +257,7 @@ function listModule( type ) {
 //        beforeSend: function () {
 //        },
 //        success: function ( res ) {
-    
+
     var res ={
         "data": {
             "shapes": [
@@ -1769,31 +1769,20 @@ function saveAsImage(nameStr,result) {
                     cxt2.putImageData(dataImg,0,0,0,0,canvas2.height, canvas2.width)
                     // 把整个临时图片容器转成 base64字符
                     var img2 = canvas2.toDataURL("image/png");
-                    
+
                     //                var successFlag = js.saveStl( result, nameStr + '.stl', img2.split(",")[1]);
                     //                var saveObj ={""}
                     //var successFlag = JsBridge.ssaveStlFileNameImgData( result, nameStr + '.stl', img2.split(",")[1]);
                     // _ fileTxt: String,  fileName: String,  imgData: String)
                     webkit.messageHandlers.saveStl.postMessage({fileTxt: result, fileName: nameStr + '.stl',imgData:img2.split(",")[1]})
-                    // log("successFlag:"+successFlag)
-//                    if(successFlag){
-//                        afterSTLImg();
-//                        // getLocalAppSTL();
-//                    }
-//                    else{
-//                        $( ".save_name_verify" ).text( "保存失败，请重试" ).show();
-//                        setTimeout( function () {
-//                                   $( ".save_name_verify" ).text( "请输入模型名称" ).hide();
-//                                   }, 1500 );
-//                        goHomeFlag = false;
-//                        saveFlag = false;
-//                    }
+
                 }
-                
+
             }else{
                 log("complete:" + img.complete)
+				saveAsImage(nameStr,result);
             }
-            
+
 
     	} catch (e) {
     		log(e);
@@ -1807,6 +1796,7 @@ function saveAsImage(nameStr,result) {
     	}
 
 }
+
 function saveImgFalse(){
     $( ".save_name_verify" ).text( "保存失败，请重试" ).show();
     setTimeout( function () {
@@ -2292,15 +2282,12 @@ function shapesController( type ) {//type 0: normal
 	if (! $( ".show_more" ).hasClass( "show_more_close" )) {
 		$( ".obj_control" ).css( { width: window.innerWidth - 100 } );
 	}
-	log("shapesController")
-	log(currentBuildType)
 	if(currentBuildType == 0){
-			log("show")
-
+		$( ".has_right_menu" ).show();
 		$( ".obj_control_wrapper" ).show();
 	}
 	else{
-		log("hide")
+		$( ".has_right_menu" ).hide();
 		$( ".obj_control_wrapper" ).hide();
 	}
 
