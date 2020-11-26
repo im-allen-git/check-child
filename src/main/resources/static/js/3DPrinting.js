@@ -583,15 +583,11 @@ function listModule( type ) {
 //    }
 //}
 function getLocalAppSTL(localStl){
-	 log("5")
-	 log(localStl)
 	var data = localStl;
 	var stlListHTML = '<div class="child_title" onclick="hideModule(this)"><i class="iconfont arrow">&#xe720;</i>我的模型</div>';
 	if(data && data !=null && data.length>5) {
-		log("6")
 	    var stlList = eval('('+data+')')
 		var stlListIndex = 100;
-		log("7")
 		for (var i in stlList) {
 			stlListHTML += '';
 			if(stlListIndex == 100){
@@ -603,7 +599,7 @@ function getLocalAppSTL(localStl){
 			stlListHTML += '<input class="this_module" type="hidden" value="3">';
 			stlListHTML += '<input class="this_url" type="hidden" value="' + stlList[i].urlStl + '">';
 			// stlListHTML += '<div class="drag sprint sprint_' + stlList[i].title + ' sprintY"></div>';
-			stlListHTML += '<div class="img_wrapper" onclick="log(\''+stlList[i].localImg.replace("Documents","tmp")+'\')"><img src="file://' + stlList[i].localImg.replace("Documents","tmp") + '" alt="' + stlList[i].localImg + '" class="drag sprint"></div>';
+			stlListHTML += '<div class="img_wrapper"><img src="'+ stlList[i].urlImg + '" alt="' + stlList[i].urlImg + '" class="drag sprint"></div>';
 			var name  =stlList[i].sourceStlName.split(".stl")[0];
 			stlListHTML += '<div class="name drag">' + name + '</div>';
 			stlListHTML += '<div class="color_change">';
@@ -613,13 +609,11 @@ function getLocalAppSTL(localStl){
 			stlListHTML += '</div>';
 			stlListIndex ++;
 		}
-	log("8")
 	}
 	else{
         stlListHTML+='<div class="module shapes no_module"><div class="name">无</div></div>'
 	}
 	$(".mymodule_wrapper").html(stlListHTML)
-log("9")
 }
 function getTimeStr() {
 	var date = new Date();
@@ -639,6 +633,7 @@ function closeSaveSucc(){
 function saveModuleShow( type ) {
 	if (objects.length > 1) {
 		if (type == 0) {
+            $(".active_control").trigger("click");
 			$( "#save_name" ).val( getTimeStr() );
 			$( ".save_name_ok" ).attr( 'onclick', "exportMoudle(0)" );
 			$( ".save_name_module,.save_name_module_bg" ).show();
@@ -1663,7 +1658,7 @@ function exportMoudle( type ) { //type 0: ASCII 1: GLTF
 				var date = Date.parse( new Date() );
 				// saveString( result, nameStr + '.stl' );
                 // log("exporter:"+JSON.stringify(exporter));
-                // log("exporter result:"+JSON.stringify(result));
+                $(".active_control").trigger("click");
                 saveAsImage(nameStr );
 				// successFlag = true;
 			} else {
@@ -1715,7 +1710,6 @@ function saveAsImage(nameStr) {
 	var imgData;
     	var strDownloadMime = "image/octet-stream";
     	try {
-    		transformControl.detach();
 			scene.remove( transformControl );
     		var strMime = "image/png";
     		imgData = renderer.domElement.toDataURL( strMime, 1 );
@@ -1724,7 +1718,6 @@ function saveAsImage(nameStr) {
             var img = new Image();
             img.src = imgData;
                 img.onload = function(){
-                    log("onload:")
 					$( "#loading_data" ).show();
                     canvas1.width = img.width;
                     canvas1.height = img.height;
@@ -1740,8 +1733,6 @@ function saveAsImage(nameStr) {
                     cxt2.putImageData(dataImg,0,0,0,0,canvas2.height, canvas2.width)*/
                     // 把整个临时图片容器转成 base64字符
                     var img2 = canvas1.toDataURL("image/png");
-                   /* log("img2 url")
-                    log(img2)*/
 
 					scene.remove( mouseHelper );
 					clearCache( gridHelper );
@@ -1763,7 +1754,7 @@ function saveAsImage(nameStr) {
 					animate();
 					exporter = new THREE.STLExporter(); //导出工具  exporter tool
 					var result = exporter.parse( scene );
-                    webkit.messageHandlers.saveStl.postMessage({fileTxt: result, fileName: nameStr + '.stl',imgData:img2.split(",")[1]})
+                    webkit.messageHandlers.saveStl.postMessage({fileTxt: result, fileName: nameStr + '.stl',imgData:img2.split(",")[1]});
 
 
 					if (! mobile) {
@@ -1825,7 +1816,6 @@ var saveFile = function (strData, filename) {
 }
 
 function afterSTLImg(localStl){
-    log("hou tai diao gaifangfa baocun chenggong")
 	saveModuleShow( 1 );
 	// 保存成功，清空当前项目
 	removeAllShapes();
@@ -1833,13 +1823,11 @@ function afterSTLImg(localStl){
 	$("#canImg").remove();//保存当前图片后，删除
     $(".obj_control_wrapper").hide();
 	if(goHomeFlag){
-		  log("1")
         goHomeFlag = false;
         saveFlag = false;
          goPage( 3 )
     }
     else{
-    	 log("1")
 		if(goMineCraftFlag){
 			switchGame(0);
 		}else{
@@ -1849,9 +1837,7 @@ function afterSTLImg(localStl){
 		}
 
     }
-     log("3")
             getLocalAppSTL(localStl);
-     log("4")
     	$( "#loading_data" ).hide();
 
 
@@ -1948,7 +1934,6 @@ function resetZoom() {
 }
 
 async function loadSTL( thisSTL, obj ) {
-    log("loadSTL function")
     currentObj = '';
 	stlGeoFlag = 1;//0 geo; 1 stl
 	showInput( 1 );
@@ -2012,10 +1997,8 @@ async function loadSTL( thisSTL, obj ) {
 			file = '../models/stl/ascii/3dPrinting/tyrannosaurusRex.stl';
 	}
 	var loader = new THREE.STLLoader();
-    log("loader")
 	await loader.load( file, function ( geometry ) {
 		currentObj = geometry;
-        log("loadSTL currentObj:")
         log(currentObj)
 	} );
 }
@@ -2028,11 +2011,7 @@ async function loadLocalSTL( thisSTL) {
 	$( "#loading_data" ).show();
 	shootedFlag = false;
 	var loader = new THREE.STLLoader();
-	log("loadLocalStl before");
-	log("thisSTL:" + thisSTL);
 	await loader.load( thisSTL, function ( geometry ) {
-		log("loadLocalStl")
-		log(geometry)
 		currentObj = geometry;
 	} );
 }
