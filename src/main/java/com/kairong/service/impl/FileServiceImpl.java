@@ -50,7 +50,7 @@ public class FileServiceImpl implements FileService {
         }
         file.transferTo(saveFile);
 
-        String stlUnZipPath = filePath.substring(0, filePath.indexOf(".")) + ".stl" ;
+        String stlUnZipPath = filePath.substring(0, filePath.indexOf(".")) + ".stl";
         // filePath.replace(".zip", ".stl");
 
 
@@ -115,6 +115,24 @@ public class FileServiceImpl implements FileService {
         return rsPath;
     }
 
+
+    @Override
+    public String saveStlImgIos(MultipartFile file, String uuid) throws IOException {
+
+        String filePath = null;
+        try {
+            System.err.println("originalFilename:" + file.getOriginalFilename());
+            filePath = slic3rUtil.getIosFilePath(Objects.requireNonNull(file.getOriginalFilename()), uuid);
+            File saveFile = new File(filePath);
+            if (!saveFile.getParentFile().exists() || !saveFile.getParentFile().isDirectory()) {
+                saveFile.getParentFile().mkdirs();
+            }
+            file.transferTo(saveFile);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return filePath;
+    }
 
     private String saveImg(MultipartFile file) {
         String filePath = null;

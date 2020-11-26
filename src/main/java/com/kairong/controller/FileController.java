@@ -73,12 +73,12 @@ public class FileController {
 
 
     @PostMapping("/uploadFileAndGenGcodeIos")
-    public CommonResult uploadFileAndGenGcodeIos(HttpServletRequest request, @RequestParam("file") MultipartFile file) {
+    public CommonResult uploadFileAndGenGcodeIos(HttpServletRequest request, @RequestParam("file") MultipartFile[] files) {
 
         try {
             // , @RequestParam("commandLineMap") Map<String, String> commandLineMap
 
-            Assert.notNull(file, "file null");
+            Assert.notNull(files, "file null");
 
             request.getParameterMap().forEach((k, v) -> System.err.println("k:" + k + ",v:" + Arrays.toString(v)));
 
@@ -94,9 +94,26 @@ public class FileController {
                 return CommonResult.failed("uuid null");
             }
 
-            String fileName = fileService.saveAndGenGcodeIos(file, commandLineMap, uuid);
-            if (null != fileName) {
-                return CommonResult.success(fileName);
+            int count = 0;
+            Map<String, String> rsMap = new HashMap<>();
+            for (MultipartFile file : files) {
+                if (file.getOriginalFilename().contains(".zip")) {
+                    String fileName = fileService.saveAndGenGcodeIos(file, commandLineMap, uuid);
+                    if (StringUtils.isNotBlank(fileName)) {
+                        rsMap.put("gcode", fileName);
+                        count++;
+                    }
+                } else if (file.getOriginalFilename().contains(".png")) {
+                    String fileName = fileService.saveStlImgIos(file, uuid);
+                    if (StringUtils.isNotBlank(fileName)) {
+                        rsMap.put("img", fileName);
+                        count++;
+                    }
+                }
+            }
+
+            if (count == files.length) {
+                return CommonResult.success(JSONObject.toJSONString(rsMap));
             } else {
                 return CommonResult.failed("uploadFileAndGenGcodeIos error: no file");
             }

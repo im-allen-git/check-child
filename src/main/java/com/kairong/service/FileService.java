@@ -19,6 +19,8 @@ public interface FileService {
 
     String saveAndGenGcodeIos(MultipartFile file, Map<String, String> commandLineMap, String uuid) throws IOException;
 
+    String saveStlImgIos(MultipartFile file, String uuid) throws IOException;
+
     Resource loadAndroidFileAsResource(String filePath) throws Exception;
 
     Resource loadIosFileAsResource(String filePath, String uuid) throws Exception;
