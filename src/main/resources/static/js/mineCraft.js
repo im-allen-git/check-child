@@ -35,6 +35,7 @@ function switchGame(type) { //type  1: 去普通模式 0：去minecraft
     }
     camera.lookAt(0, 0, 0);
     goMineCraftFlag = false;
+    $( "#loading_data" ).hide();
 }
 async function loadMineCraftSTL() {
     var stlloader = new THREE.STLLoader();
