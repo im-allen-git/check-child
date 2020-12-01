@@ -588,38 +588,40 @@ function getLocalAppSTL(localStl,Build,MyWorld){
     firstBuild = Build;
     firstMyWorld = MyWorld;
 	createTip();
-
-	var data = localStl;
-	var stlListHTML = '<div class="child_title" onclick="hideModule(this)"><i class="iconfont arrow">&#xe720;</i>我的模型</div>';
-	if(data && data !=null && data.length>5) {
-	    var stlList = eval('('+data+')')
-		var stlListIndex = 100;
-		for (var i in stlList) {
-			stlListHTML += '';
-			if(stlListIndex == 100){
-			    stlListHTML += '<div class="module lego drag" style="margin-top:.32rem">'; // onclick="loadSTL(' + cartoonIndex + ',this)"
-			}else{
-			    stlListHTML += '<div class="module lego drag">'; // onclick="loadSTL(' + cartoonIndex + ',this)"
-			}
-			stlListHTML += '<input class="this_code" type="hidden" value="' + stlListIndex + '">';
-			stlListHTML += '<input class="this_module" type="hidden" value="3">';
-			stlListHTML += '<input class="this_url" type="hidden" value="' + stlList[i].urlStl + '">';
-			// stlListHTML += '<div class="drag sprint sprint_' + stlList[i].title + ' sprintY"></div>';
-			stlListHTML += '<div class="img_wrapper"><img src="'+ stlList[i].urlImg + '" alt="' + stlList[i].urlImg + '" class="drag sprint"></div>';
-			var name  =stlList[i].sourceStlName.split(".stl")[0];
-			stlListHTML += '<div class="name drag">' + name + '</div>';
-			stlListHTML += '<div class="color_change">';
-			stlListHTML += '<div class="color_option color_yellow color_circle" onclick="changeColorBeforeShoot(1,this)"></div>';
-			stlListHTML += '<div class="color_option color_white color_circle" onclick="changeColorBeforeShoot(0,this)"></div>';
-			stlListHTML += '</div>';
-			stlListHTML += '</div>';
-			stlListIndex ++;
-		}
-	}
-	else{
+    loadLocalAppStl(localStl);
+}
+function loadLocalAppStl(localStl){
+    var data = localStl;
+    var stlListHTML = '<div class="child_title" onclick="hideModule(this)"><i class="iconfont arrow">&#xe720;</i>我的模型</div>';
+    if(data && data !=null && data.length>5) {
+        var stlList = eval('('+data+')')
+        var stlListIndex = 100;
+        for (var i in stlList) {
+            stlListHTML += '';
+            if(stlListIndex == 100){
+                stlListHTML += '<div class="module lego drag" style="margin-top:.32rem">'; // onclick="loadSTL(' + cartoonIndex + ',this)"
+            }else{
+                stlListHTML += '<div class="module lego drag">'; // onclick="loadSTL(' + cartoonIndex + ',this)"
+            }
+            stlListHTML += '<input class="this_code" type="hidden" value="' + stlListIndex + '">';
+            stlListHTML += '<input class="this_module" type="hidden" value="3">';
+            stlListHTML += '<input class="this_url" type="hidden" value="' + stlList[i].urlStl + '">';
+            // stlListHTML += '<div class="drag sprint sprint_' + stlList[i].title + ' sprintY"></div>';
+            stlListHTML += '<div class="img_wrapper"><img src="'+ stlList[i].urlImg + '" alt="' + stlList[i].urlImg + '" class="drag sprint"></div>';
+            var name  =stlList[i].sourceStlName.split(".stl")[0];
+            stlListHTML += '<div class="name drag">' + name + '</div>';
+            stlListHTML += '<div class="color_change">';
+            stlListHTML += '<div class="color_option color_yellow color_circle" onclick="changeColorBeforeShoot(1,this)"></div>';
+            stlListHTML += '<div class="color_option color_white color_circle" onclick="changeColorBeforeShoot(0,this)"></div>';
+            stlListHTML += '</div>';
+            stlListHTML += '</div>';
+            stlListIndex ++;
+        }
+    }
+    else{
         stlListHTML+='<div class="module shapes no_module"><div class="name">无</div></div>'
-	}
-	$(".mymodule_wrapper").html(stlListHTML)
+    }
+    $(".mymodule_wrapper").html(stlListHTML)
 }
 function getTimeStr() {
 	var date = new Date();
@@ -1852,7 +1854,7 @@ function afterSTLImg(localStl){
 		}
 
     }
-            getLocalAppSTL(localStl);
+    loadLocalAppStl(localStl);
     	$( "#loading_data" ).hide();
 
 
