@@ -33,9 +33,14 @@ function switchGame(type) { //type  1: 去普通模式 0：去minecraft
         changeMineCraftStl(0)
         firstMineCraft();
     }
+    if (objects.length > 1) {
+        $( ".save_stl" ).removeClass( "noActive_save" );
+    } else {
+        $( ".save_stl" ).removeClass( "noActive_save" ).addClass( "noActive_save" );
+    }
     camera.lookAt(0, 0, 0);
     goMineCraftFlag = false;
-    $("#loading_data" ).hide();
+    $("#loading_data").hide();
 }
 async function loadMineCraftSTL() {
     var stlloader = new THREE.STLLoader();
