@@ -88,6 +88,13 @@ function changeMineCraftStl(thisSTL, obj) {
                 currentMineCraftType = 0;
                 currentObj = wallStl;
         }
+        //切换取消删除功能，取消放大缩小
+        $(".active_control").removeClass("active_control");
+        if (canBeDeleted) {
+            canBeDeleted = false;
+        }
+        $( ".zoom_options" ).hide();
+        $( ".color_wrapper" ).hide();
     }
 
 }
@@ -150,7 +157,7 @@ function onDocumentMouseDownMineCraft(event) {
                 createObjForOperation(voxel, 'add');
                 $(".save_stl").removeClass("noActive_save");//
                 $(".undo_control").removeClass("noActive_control");//
-                $(".obj_control_wrapper_minecraft").show();
+                $(".obj_control,.obj_control_wrapper_minecraft").show();
             }
             render();
         }
