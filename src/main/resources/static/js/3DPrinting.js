@@ -206,6 +206,7 @@ $( function () {
 			$( ".obj_control" ).show();
 		}
 	} );
+
 	init();
 	render();
 } );
@@ -582,7 +583,11 @@ function listModule( type ) {
 //            $( ".minecraft_wrapper" ).html( mineCraftHtml );
 //    }
 //}
-function getLocalAppSTL(localStl){
+function getLocalAppSTL(localStl,Build,MyWorld){
+    firstBuild = Build;
+    firstMyWorld = MyWorld;
+	createTip();
+
 	var data = localStl;
 	var stlListHTML = '<div class="child_title" onclick="hideModule(this)"><i class="iconfont arrow">&#xe720;</i>我的模型</div>';
 	if(data && data !=null && data.length>5) {
@@ -1015,11 +1020,14 @@ function init() {
 	window.addEventListener( 'resize', onWindowResize, false );
 	animate();
 	onWindowResize();
-	createTip();
     setTimeout(function(){
-               animate();
-               onWindowResize();
-               },500)
+	   animate();
+	   onWindowResize();
+   },500)
+	setTimeout(function(){
+	   animate();
+	   onWindowResize();
+   },1000)
 }
 
 function animate() {
@@ -1208,6 +1216,7 @@ function render() {
  * @param mesh  mesh对象
  * */
 function clearCache( currentMesh ) {
+	// log("clearCache")
 	currentMesh.geometry.dispose();
 	currentMesh.material.dispose();
 }
@@ -1754,7 +1763,12 @@ function saveAsImage(nameStr) {
 					animate();
 					exporter = new THREE.STLExporter(); //导出工具  exporter tool
 					var result = exporter.parse( scene );
-                    webkit.messageHandlers.saveStl.postMessage({fileTxt: result, fileName: nameStr + '.stl',imgData:img2.split(",")[1]});
+					try{
+						// log("saveStl ---- log");
+                   	 	webkit.messageHandlers.saveStl.postMessage({fileTxt: result, fileName: nameStr + '.stl',imgData:img2.split(",")[1]});
+                    }catch (e) {
+                        // log("saveStl error" + e)
+                    }
 
 
 					if (! mobile) {
@@ -1999,7 +2013,7 @@ async function loadSTL( thisSTL, obj ) {
 	var loader = new THREE.STLLoader();
 	await loader.load( file, function ( geometry ) {
 		currentObj = geometry;
-        log(currentObj)
+        // log(currentObj)
 	} );
 }
 async function loadLocalSTL( thisSTL) {
@@ -2609,7 +2623,7 @@ function createTip(){
     var flag = true;
 
 //    console.log("build_module:"+flag)
-    if(!flag){
+    if(firstBuild<1){
         showModule(0);
         var div1 = document.createElement("div");
         var div2 = document.createElement("div");
@@ -2621,7 +2635,7 @@ function createTip(){
         document.body.appendChild(div1);
         document.body.appendChild(div2);
         $(".how_to_play, .how_to_play_bg").click(function(){
-            js.saveFlagByJson("build_module");
+			webkit.messageHandlers.firstBuild.postMessage("1");
             $(".how_to_play, .how_to_play_bg").remove();
         })
     }
@@ -2629,3 +2643,6 @@ function createTip(){
         $(".how_to_play, .how_to_play_bg").remove();
     }
 }
+
+
+

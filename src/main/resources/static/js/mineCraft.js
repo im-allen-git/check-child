@@ -35,7 +35,7 @@ function switchGame(type) { //type  1: 去普通模式 0：去minecraft
     }
     camera.lookAt(0, 0, 0);
     goMineCraftFlag = false;
-    $( "#loading_data" ).hide();
+    $("#loading_data" ).hide();
 }
 async function loadMineCraftSTL() {
     var stlloader = new THREE.STLLoader();
@@ -220,35 +220,15 @@ function hideMineCraftNote() {
 // 导出相关
 function exportMineCraftMoudle(type) { //type 0: ASCII 1: GLTF
     if (objects.length > 1) {
-        scene.remove(transformControl);
-        scene.remove(mouseHelper);
-        clearCache(gridHelper);
-        scene.remove(gridHelper);
-        clearCache(gradGroundMesh);
-        scene.remove(gradGroundMesh);
-        clearCache(gradGroundMesh1);
-        scene.remove(gradGroundMesh1);
-        clearCache(plane);
-        scene.remove(plane);
-        outlinePass.selectedObjects = [];
-        camera.position.set(83, 71, 124); //45°
-        camera.lookAt(0, 0, 0);
-        directionalLight.position.set(-10, 1, -20).normalize();
-        //threejs Y-up, 别的事Z-up,所以到处之前要旋转
-        scene.rotation.set(Math.PI / 2, 0, 0);
-        scene.updateMatrixWorld();
-        //end
-        animate();
+
         var nameStr = $("#save_minecraft_name").val();
         var successFlag;
         if (nameStr) {
             saveFlag = true;
             if (type === 0) {
-                exporter = new THREE.STLExporter(); //导出工具  exporter tool
-                var result = exporter.parse(scene);
-                var date = Date.parse(new Date());
+
                 // saveString( result, nameStr + '.stl' );
-                saveAsImage(nameStr, result);
+                saveAsImage(nameStr);
                 // successFlag = true;
             } else {
                 var input = scene;
@@ -290,10 +270,8 @@ function exportMineCraftMoudle(type) { //type 0: ASCII 1: GLTF
 }
 
 // Text object end
-function firstMineCraft() {
-    var flag = js.getFlagByJson("mine_craft_module");
-//    console.log("build_module:"+flag)
-    if (!flag) {
+function firstMineCraft() {//0 没有  1 有
+    if (firstMyWorld<1) {
         showModule(0);
         var div1 = document.createElement("div");
         var div2 = document.createElement("div");
@@ -305,7 +283,8 @@ function firstMineCraft() {
         document.body.appendChild(div1);
         document.body.appendChild(div2);
         $(".how_to_play_minecraft, .how_to_play_bg").click(function () {
-            js.saveFlagByJson("mine_craft_module");
+            webkit.messageHandlers.firstMyWorld.postMessage("1");
+            firstMyWorld = 1;
             $(".how_to_play_minecraft, .how_to_play_bg").remove();
         })
     } else {

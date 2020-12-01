@@ -1,3 +1,7 @@
+var firstAccess = 0; //是否第一次访问app
+var firstBuild = 0; //是否第一次访问创建模型
+var firstMyWorld = 0; //是否第一次访问我的世界
+
 //console.log(123)
 function goPage( type ) {
     type = Number(type);
@@ -49,4 +53,9 @@ function log(value){
     }catch(error){
         console.error('The native context not exist ')
     }
+}
+function firstCheck(access, build, myworld){//0 没有访问过  1 访问过
+    firstAccess = access;
+    firstBuild = build;
+    firstMyWorld = myworld;
 }
