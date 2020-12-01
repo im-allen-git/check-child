@@ -215,7 +215,7 @@ function showMore(){
 	$( "#shapes" ).toggle();
 	$( "#shapes" ).toggleClass( "shapes_close" );
 	$( ".show_more" ).toggleClass( "show_more_close" );
-	$( ".child_wrapper " ).hide();
+	$( "#childWrapper " ).toggle();
 	$( ".obj_control" ).toggleClass( "has_right_menu" );
 	$( ".orientationControls" ).toggleClass( "right_menu_hide" );
 
@@ -227,6 +227,7 @@ function showMore(){
 	onWindowResize(); //canvas floats to right side,in case the show_more close, there were dark side
 }
 function showModule( type ) {//type 0: 标准模型    1:卡通模型 2: lego 模型
+    $(".child_wrapper").hide();
 	if (type == 0) {
 		$( ".normal_wrapper" ).show();
 	} else if (type == 1) {
@@ -2625,7 +2626,7 @@ function createTip(){
 //    console.log("build_module:"+flag)
     if(firstBuild<1){
         showModule(0);
-        var div1 = document.createElement("div");
+       var div1 = document.createElement("div");
         var div2 = document.createElement("div");
         div1.className = "how_to_play";
         var img =  document.createElement("img");

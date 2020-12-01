@@ -279,7 +279,7 @@ function exportMineCraftMoudle(type) { //type 0: ASCII 1: GLTF
 // Text object end
 function firstMineCraft() {//0 没有  1 有
     if (firstMyWorld<1) {
-        showModule(0);
+        // showModule(0);
         var div1 = document.createElement("div");
         var div2 = document.createElement("div");
         div1.className = "how_to_play_minecraft";
