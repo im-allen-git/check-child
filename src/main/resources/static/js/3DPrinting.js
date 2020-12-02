@@ -636,7 +636,7 @@ function getTimeStr() {
 }
 function closeSaveSucc(){
 	$( ".save_succ,.save_name_module_bg" ).hide();
-	$( ".minecraft_wrapper" ).hide();
+	// $( ".minecraft_wrapper" ).hide();
 }
 function saveModuleShow( type ) {
 	if (objects.length > 1) {

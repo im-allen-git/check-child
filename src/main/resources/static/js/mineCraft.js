@@ -277,7 +277,7 @@ function exportMineCraftMoudle(type) { //type 0: ASCII 1: GLTF
         directionalLight.position.set(1, 0.75, 0.5).normalize();
         //end
         $(".save_name_minecraft_module,.save_name_module_bg").hide();
-        switchGame(1)
+        // switchGame(1)
     }
 }
 
