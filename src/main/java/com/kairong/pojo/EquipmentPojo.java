@@ -41,5 +41,11 @@ public class EquipmentPojo {
     private String set_name;
     // 要变换称的项目
     private String set_item;
+    // 项目中文名
+    private String item_value;
+    // 单位中文名
+    private String unit_value;
+    // 在线名称 蓝牙 wifi
+    private String online_value;
 
 }

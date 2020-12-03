@@ -53,6 +53,10 @@ public class WeighingdataPojo {
 
     private String start_week;
     private String end_week;
+    // 项目中文名
+    private String item_value;
+    // 单位中文名
+    private String unit_value;
 
 
 }

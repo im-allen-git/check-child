@@ -39,7 +39,7 @@ public interface UserMapper {
     int weighingDataInsert(String userId,String mac,String item,String weight,String createTime);
 
 
-    @Select("select user_id from user_saz where mobile = #{mobile}")
+    @Select("select user_id from user_saz where mobile = #{mobile} or user_id= #{user_id}")
     UserPojo checkUserIdExist(UserPojo userPojo);
 
     @Insert("insert into user_saz(nick_name,mobile,type) values(#{nick_name},#{mobile},#{type})")
@@ -49,7 +49,7 @@ public interface UserMapper {
     @Select("<script> select a.user_id,a.nick_name,a.mobile,a.sex,a.birthday,a.height,a.weight,a.waste_rate,a.number,DATE_FORMAT(a.create_time,'%Y-%m-%d %H:%i:%S') as create_time,b.online_type,a.type,b.ip_address " +
             "from user_saz a LEFT JOIN equipment b on a.user_id = b.user_id where " +
             " <if test='user_id!=null and user_id != &quot;&quot; '>  a.user_id = #{user_id} </if> " +
-            " <if test='mobile!=null and mobile != &quot;&quot; '>  a.mobile = #{mobile} </if> " +
+            " <if test='mobile!=null and mobile != &quot;&quot; '>  (a.mobile = #{mobile} or a.user_id = #{mobile}) </if> " +
             " limit 1  </script> ")
     UserPojo getUserInfoData(UserPojo userPojo);
 
@@ -78,6 +78,11 @@ public interface UserMapper {
             "values(#{mac},#{name},#{user_id},#{item},#{unit},#{target},#{ip_address},#{online_type},#{service_id},#{characteristic_id},#{device_name})")
     int saveEquipmentDataBase(EquipmentPojo equipmentPojo);
 
+
+    @Insert("insert into qa_saz(user_id,content) " +
+            "values(#{user_id},#{content})")
+    int saveQaDataBase(QAPojo qaPojo);
+
     @Select("select count(0) from equipment where user_id = #{user_id} and mac = #{mac}  and item = #{item}  and name = #{name} ")
     int checkEquipmentDataBase(EquipmentPojo equipmentPojo);
 
@@ -85,7 +90,9 @@ public interface UserMapper {
             " <if test='item!=null and item != &quot;&quot; '> and item = #{item} </if> </script> " )
     int equipmentDel(EquipmentPojo equipmentPojo);
 
-    @Select("select user_id,binding_userid from binding_user where user_id = #{user_id}")
+    @Select("select binding_user.user_id,binding_user.binding_userid,user_saz.nick_name from binding_user ,user_saz  " +
+            " where binding_user.user_id= #{user_id} " +
+            " and (binding_user.binding_userid=user_saz.user_id or binding_user.binding_userid=user_saz.mobile)" )
     List<BindingUserPojo> getBindingUserList(BindingUserPojo bindingUserPojo);
 
     @Update("<script> update equipment set " +
@@ -113,7 +120,11 @@ public interface UserMapper {
     int updateEquipments(EquipmentPojo equipmentPojo);
 
 
-    @Select("<script> select mac,name,user_id,item,unit,target,ip_address,online_type,service_id,characteristic_id,device_name,update_time from equipment where user_id = #{user_id} " +
+    @Select("<script> select mac,name,user_id,item,unit,target,ip_address,online_type,service_id,characteristic_id,device_name,update_time,item_value,unit_value,online_value from equipment " +
+            " left JOIN item_saz on equipment.item=item_saz.item_id " +
+            " left JOIN unit_saz on equipment.unit=unit_saz.unit_id " +
+            " left JOIN online_saz on equipment.online_type=online_saz.online_id " +
+            " where user_id = #{user_id} " +
             "<if test='mac!=null and mac != &quot;&quot; '> and mac = #{mac} </if> " +
             "<if test='item!=null and item != &quot;&quot; '> and item = #{item} </if> </script>" )
     List<EquipmentPojo> getEquipmentDataList(EquipmentPojo equipmentPojo);
@@ -139,8 +150,10 @@ public interface UserMapper {
 
 
 
-    @Select("<script> select id,user_id,mac,name,item,type,weight,unit,waste_rate,number,create_time,del_status " +
-            " from weighing_data where del_status=0 and user_id = #{user_id} " +
+    @Select("<script> select id,user_id,mac,name,item,type,weight,unit,waste_rate,number,create_time,del_status,item_value,unit_value from weighing_data " +
+            " left JOIN item_saz  on equipment.item=item_saz.item_id " +
+            " left JOIN unit_saz  on equipment.unit=unit_saz.unit_id " +
+            " where del_status=0 and user_id = #{user_id} " +
             "<if test='mac!=null and mac != &quot;&quot; '> and mac = #{mac} </if>" +
             "<if test='item!=null and item != &quot;&quot; '> and item = #{item} </if>" +
             "<if test='type!=null and type != &quot;&quot; '> and type = #{type} </if> " +
@@ -165,8 +178,11 @@ public interface UserMapper {
     List<WeighingdataPojo> getCalculateList(WeighingdataPojo weighingdataPojo);
 
 
-    @Select("<script> select id,user_id,mac,item,type,weight,unit,create_time,waste_rate,number,update_time,del_status " +
-            " from weighing_data where del_status=0 and user_id = #{user_id} " +
+    @Select("<script> select id,user_id,mac,item,type,weight,unit,create_time,waste_rate,number,update_time,del_status,item_value,unit_value " +
+            " from weighing_data" +
+            " left JOIN item_saz  on equipment.item=item_saz.item_id " +
+            " left JOIN unit_saz  on equipment.unit=unit_saz.unit_id " +
+            " where del_status=0 and user_id = #{user_id} " +
             "<if test='item!=null and item != &quot;&quot; '> and item = #{item} </if>" +
             "<if test='type!=null and type != &quot;&quot; '> and type = #{type} </if>" +
             "<if test='start_time!=null and start_time != &quot;&quot; '> and create_time &gt;= #{start_time} </if>" +

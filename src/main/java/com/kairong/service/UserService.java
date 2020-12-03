@@ -57,6 +57,9 @@ public interface UserService {
     // 保存设备数据
     int saveEquipmentDataBase(EquipmentPojo equipmentPojo);
 
+    // 保存QA数据
+    int saveQaDataBase(QAPojo qaPojo);
+
     // 设备信息删除
     int equipmentDel(EquipmentPojo equipmentPojo);
 

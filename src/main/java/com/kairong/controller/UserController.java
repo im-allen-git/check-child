@@ -1,10 +1,7 @@
 package com.kairong.controller;
 
 import com.alibaba.fastjson.JSON;
-import com.kairong.pojo.BindingUserPojo;
-import com.kairong.pojo.EquipmentPojo;
-import com.kairong.pojo.UserPojo;
-import com.kairong.pojo.WeighingdataPojo;
+import com.kairong.pojo.*;
 import com.kairong.service.UserService;
 import com.kairong.util.CommonResult;
 import com.kairong.util.TimeUtil;
@@ -120,9 +117,8 @@ public class UserController {
 //        }
 //    }
 
-
     @PostMapping("/weighingDataInsert")
-    //称重设备插入 硬件调用接口
+    //称重设备插入硬件调用接口
     public CommonResult weighingDataInsert(HttpServletRequest request, HttpServletResponse response,WeighingdataPojo weighingdataPojo) {
 
         try {
@@ -130,6 +126,32 @@ public class UserController {
             int userId = userService.getUserId(weighingdataPojo.getMac());
 
             weighingdataPojo.setUser_id(String.valueOf(userId));
+            weighingdataPojo.setCreate_time(TimeUtil.stampToDate(weighingdataPojo.getCreate_time()));
+            // 插入数据
+            int id = userService.weighingdataAdd(weighingdataPojo);
+
+            if (id > 0) {
+                return CommonResult.success(1, id);
+            } else {
+                return CommonResult.success(0, null);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            log.error("weighingDataInsert, error:", weighingdataPojo, e);
+            return CommonResult.failed(e.getMessage());
+        }
+    }
+
+
+    @PostMapping("/weighingDataInsertSf")
+    //称重设备插入
+    public CommonResult weighingDataInsertSf(HttpServletRequest request, HttpServletResponse response,WeighingdataPojo weighingdataPojo) {
+
+        try {
+            //查询设备对应的userId
+//            int userId = userService.getUserId(weighingdataPojo.getMac());
+
+//            weighingdataPojo.setUser_id(String.valueOf(userId));
             weighingdataPojo.setCreate_time(TimeUtil.stampToDate(weighingdataPojo.getCreate_time()));
             // 插入数据
             int id = userService.weighingdataAdd(weighingdataPojo);
@@ -248,7 +270,12 @@ public class UserController {
             int checkFlag =0;
             //检查绑定的手机是否是我们app用户
             UserPojo userPojo =new UserPojo();
-            userPojo.setMobile(bindingUserPojo.getBinding_userid());
+            if("1".equals(bindingUserPojo.getType())){
+                userPojo.setMobile(bindingUserPojo.getBinding_userid());
+            }else{
+                userPojo.setUser_id(Integer.valueOf(bindingUserPojo.getBinding_userid()));
+            }
+
             UserPojo user = userService.checkUserIdExist(userPojo);
             if(user != null){
                 // 检查绑定用户是否存在
@@ -564,6 +591,27 @@ public class UserController {
 
     }
 
+    @PostMapping("/qaAdd")
+    // 保存QA数据
+    public CommonResult qaAdd(HttpServletRequest request, HttpServletResponse response, QAPojo qaPojo) {
+
+        Assert.notNull(qaPojo, "qaPojo info is null");
+        try {
+
+            // 保存QA数据
+            int count = userService.saveQaDataBase(qaPojo);
+
+            if (count > 0) {
+                return CommonResult.success(1, count);
+            } else {
+                return CommonResult.success(0, null);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            log.error("qaAdd, error:", qaPojo, e);
+            return CommonResult.failed(e.getMessage());
+        }
+    }
 
 
 }

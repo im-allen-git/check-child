@@ -102,6 +102,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public int saveQaDataBase(QAPojo qaPojo) {
+        return userMapper.saveQaDataBase(qaPojo);
+    }
+
+
+
+    @Override
     public int checkEquipmentDataBase(EquipmentPojo equipmentPojo) {
         return userMapper.checkEquipmentDataBase(equipmentPojo);
     }
