@@ -107,14 +107,16 @@ $( function () {
 
 		},
 	} );
-	init();
-	render();
+	/*init();
+	render();*/
 } );
 function checkName() {
 	var name = $("#modelName").val();
 	userName = name;
 	if(name){
-		showLoading();
+		// showLoading();
+		init();
+		render();
 		$("#title").text("选择定制模型")
 		$(".name_wrapper").hide();
 		$(".modules_slides").show(200);
@@ -139,7 +141,7 @@ function selectModule(){
 	showLoading();
 	if(currentModelStl == 0){
 		// $("#es6Next").trigger("click");
-		confirmPrint();
+		$("#loadHeart").trigger("click");
 	}else if(currentModelStl == 1) {
 		loadSTL(1);
 	}else if(currentModelStl == 2) {
