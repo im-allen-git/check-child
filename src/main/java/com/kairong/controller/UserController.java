@@ -613,5 +613,36 @@ public class UserController {
         }
     }
 
+    @PostMapping("/weightAvgAdd")
+    // 保存日均摄入重量数据
+    public CommonResult weightAvgAdd(HttpServletRequest request, HttpServletResponse response, WeighingDataAvgPojo weighingDataAvgPojo) {
+        Assert.notNull(weighingDataAvgPojo, "weighingDataAvgPojo info is null");
+        try {
+
+            // 保存日均摄入重量数据
+            int count = userService.saveWeightAvgAddBase(weighingDataAvgPojo);
+
+            if (count > 0) {
+                return CommonResult.success(1, count);
+            } else {
+                return CommonResult.success(0, null);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            log.error("weightAvgAdd, error:", weighingDataAvgPojo, e);
+            return CommonResult.failed(e.getMessage());
+        }
+    }
+
+    @PostMapping("/getWeightAvgList")
+    // 查询日均摄入数据
+    public String getWeightAvgList(HttpServletRequest request, HttpServletResponse response,WeighingDataAvgPojo weighingDataAvgPojo) {
+
+        // 查询日均摄入数据
+        List<WeighingDataAvgPojo>  weightAvgList= userService.getWeightAvgList(weighingDataAvgPojo);
+
+        return JSON.toJSONString(weightAvgList);
+
+    }
 
 }

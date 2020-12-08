@@ -83,6 +83,11 @@ public interface UserMapper {
             "values(#{user_id},#{content})")
     int saveQaDataBase(QAPojo qaPojo);
 
+    @Insert("insert into weighing_data_avg(user_id,mac,name,item,weight_avg,weight_avg_sum,unit,create_time) " +
+            "values(#{user_id},#{mac},#{name},#{item},#{weight_avg},#{weight_avg_sum},#{unit},#{create_time})")
+    int saveWeightAvgAddBase(WeighingDataAvgPojo wighingDataAvgPojo);
+
+
     @Select("select count(0) from equipment where user_id = #{user_id} and mac = #{mac}  and item = #{item}  and name = #{name} ")
     int checkEquipmentDataBase(EquipmentPojo equipmentPojo);
 
@@ -161,6 +166,19 @@ public interface UserMapper {
             "<if test='end_time!=null and end_time != &quot;&quot; '> and create_time &lt;= #{end_time} </if>" +
             " order by create_time desc </script>")
     List<WeighingdataPojo> getWeightingDataList(WeighingdataPojo weighingdataPojo);
+
+
+    @Select("<script> select id,user_id,mac,name,item,weight,weight_avg,weight_avg_sum,unit,create_time,del_status,item_value,unit_value from weighing_data_avg " +
+            " left JOIN item_saz  on equipment.item=item_saz.item_id " +
+            " left JOIN unit_saz  on equipment.unit=unit_saz.unit_id " +
+            " where del_status=0 and user_id = #{user_id} " +
+            "<if test='mac!=null and mac != &quot;&quot; '> and mac = #{mac} </if>" +
+            "<if test='item!=null and item != &quot;&quot; '> and item = #{item} </if>" +
+            "<if test='start_time!=null and start_time != &quot;&quot; '> and create_time &gt;= #{start_time} </if>" +
+            "<if test='end_time!=null and end_time != &quot;&quot; '> and create_time &lt;= #{end_time} </if>" +
+            " order by create_time desc </script>")
+    List<WeighingDataAvgPojo> getWeightAvgList(WeighingDataAvgPojo weighingDataAvgPojo);
+
 
     @Select("<script> select DATE_FORMAT(create_time,'%Y-%m-%d %H:%i') format_time,weight,waste_rate,number,type,id " +
             " from weighing_data where del_status=0 and user_id = #{user_id} " +

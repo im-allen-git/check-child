@@ -106,6 +106,10 @@ public class UserServiceImpl implements UserService {
         return userMapper.saveQaDataBase(qaPojo);
     }
 
+    @Override
+    public int saveWeightAvgAddBase(WeighingDataAvgPojo wighingDataAvgPojo) {
+        return userMapper.saveWeightAvgAddBase(wighingDataAvgPojo);
+    }
 
 
     @Override
@@ -194,6 +198,13 @@ public class UserServiceImpl implements UserService {
     public List<WeighingdataPojo> getWeightingDataList(WeighingdataPojo weighingdataPojo) {
         return userMapper.getWeightingDataList(weighingdataPojo);
     }
+
+    @Override
+    public List<WeighingDataAvgPojo> getWeightAvgList(WeighingDataAvgPojo weighingDataAvgPojo) {
+        return userMapper.getWeightAvgList(weighingDataAvgPojo);
+    }
+
+
 
     @Override
     public List<WeighingdataPojo> getWeightingDataCalculateList(WeighingdataPojo weighingdataPojo) {

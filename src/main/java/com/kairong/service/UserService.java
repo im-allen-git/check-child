@@ -60,6 +60,10 @@ public interface UserService {
     // 保存QA数据
     int saveQaDataBase(QAPojo qaPojo);
 
+    // 保存日均摄入重量数据
+    int saveWeightAvgAddBase(WeighingDataAvgPojo wighingDataAvgPojo);
+
+
     // 设备信息删除
     int equipmentDel(EquipmentPojo equipmentPojo);
 
@@ -101,5 +105,8 @@ public interface UserService {
 
     // 查询称重信息数据按周月年
     List<WeighingdataPojo> getWeightingDataListByYMWD(WeighingdataPojo weighingdataPojo);
+
+    // 查询日均摄入数据
+    List<WeighingDataAvgPojo> getWeightAvgList(WeighingDataAvgPojo weighingDataAvgPojo);
 
 }
