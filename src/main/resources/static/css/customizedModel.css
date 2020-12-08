@@ -115,4 +115,4 @@ input#modelName::-webkit-input-placeholder{color: #ACC5DC; line-height: 25px; fo
 .confirm_print{background: url("../img/3dPrinting/btn_orig.png");background-repeat: no-repeat;background-size: contain;    background-position: center;width: 1.15rem; height: .5rem; margin: auto;text-align: center; line-height: .5rem; color: #FFF;}
 .print_note{font-size: .12rem;color: #C3E3FF;line-height: .15rem;text-align: center}
 
-#loading_data img{left: 45%;}
+#loading_data img{left: 42%;}
