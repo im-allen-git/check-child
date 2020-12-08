@@ -58,7 +58,7 @@
 				<div class="swiper-button-prev"></div>
 				<div class="swiper-button-next"></div>
 			</div>
-			<div class="confirm_print" onclick="confirmPrint()">保存</div>
+			<div class="confirm_print" onclick="selectModule()">保存</div>
 			<div class="print_note">请选择模型打印，<br>模型将保存到我的模型</div>
 		</div>
 	</div>
@@ -85,6 +85,7 @@
 	}
 </script>
 <script type="module">
+	// 该方法主要是用于 心 模型，内嵌文字
 	var containerES6 = document.getElementById( 'containerModule' );
 	import * as THREE from './js/three.module.js';
 	import { STLLoader } from './jsm/loaders/STLLoader.js';

@@ -118,8 +118,10 @@ function checkName() {
 		$("#title").text("选择定制模型")
 		$(".name_wrapper").hide();
 		$(".modules_slides").show(200);
-		loadSTL(1);
+		// loadSTL(1);
 		checkNameFlag=true;
+		$("#es6Next").trigger("click");
+
 	}
 	else{
 		$(".validate_name").show();
@@ -132,6 +134,18 @@ function clearTimeoutFn() {
 	clearTimeout(nameValidate)
 	$(".validate_name").hide();
 	$("#modelName").focus();
+}
+function selectModule(){
+	showLoading();
+	if(currentModelStl == 0){
+		// $("#es6Next").trigger("click");
+		confirmPrint();
+	}else if(currentModelStl == 1) {
+		loadSTL(1);
+	}else if(currentModelStl == 2) {
+		loadSTL(2);
+	}
+	submitStatus('-1')
 }
 function confirmPrint(){
 	var confirmName = '';
@@ -178,11 +192,11 @@ function submitStatus(status){
 	var content ;
 	switch (Number(status)) {
 		case -1:
-			content = "<div id='submitStatus'>模型正在保存中.</div>";
+			content = "<div id='submitStatus'>模型正在制作并保存中.</div>";
 			$("#loading_data").append(content);
 			statusInterval = setInterval(function(){
 				$("#loading_data").find("#submitStatus").remove();
-				content = "<div id='submitStatus'>模型正在保存中";
+				content = "<div id='submitStatus'>模型正在制作并保存中";
 				index++
 				if(index==1){
 					content+=".</div>";
@@ -459,13 +473,15 @@ function exportMoudle( type , name,thisSTL) { //type 0: ASCII 1: GLTF
 		//threejs Y-up, 别的事Z-up,所以到处之前要旋转
 		scene.rotation.set( 0, 0, 0 );
 		scene.updateMatrixWorld();
-	if(thisSTL==0){
+	/*if(thisSTL==0){
 		loadSTL(1)
 	} else if(thisSTL==1){
 		loadSTL(2);
 	}else if(thisSTL==2){
+		// 该方法主要是用于 心 模型，内嵌文字
 		$("#es6Next").trigger("click")
-	}
+	}*/
+	confirmPrint();
 		//end
 }
 
