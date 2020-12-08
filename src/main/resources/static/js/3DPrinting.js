@@ -599,7 +599,7 @@ function loadLocalAppStl(localStl){
         for (var i in stlList) {
             stlListHTML += '';
             if(stlListIndex == 100){
-                stlListHTML += '<div class="module lego drag" style="margin-top:.32rem">'; // onclick="loadSTL(' + cartoonIndex + ',this)"
+                stlListHTML += '<div class="module lego drag">'; // onclick="loadSTL(' + cartoonIndex + ',this)"
             }else{
                 stlListHTML += '<div class="module lego drag">'; // onclick="loadSTL(' + cartoonIndex + ',this)"
             }
