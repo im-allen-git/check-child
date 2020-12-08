@@ -161,9 +161,71 @@ function confirmPrint(){
 		confirmStlImg = confirmStlArr[2]
 		// saveString(model_shudi,userName+"-shudi.stl")
 	}
+	showLoading();
 	webkit.messageHandlers.saveStl.postMessage({fileTxt: confirmName, fileName: confirmStlName,imgData:confirmStlImg});
+	submitStatus('-1')
 }
 
+/**
+ *
+ * @param status -1 正在保存 0 失败， 1 保存stl到本地成功  2   上传stl成功（生成gcode）
+ */
+var statusInterval;
+function submitStatus(status){
+	clearInterval(statusInterval);
+	$("#loading_data").find("#submitStatus").remove();
+	var index = 1
+	var content ;
+	switch (Number(status)) {
+		case -1:
+			content = "<div id='submitStatus'>模型正在保存中.</div>";
+			$("#loading_data").append(content);
+			statusInterval = setInterval(function(){
+				$("#loading_data").find("#submitStatus").remove();
+				content = "<div id='submitStatus'>模型正在保存中";
+				index++
+				if(index==1){
+					content+=".</div>";
+				}
+				else if(index==2){
+					content+="..</div>";
+				}
+				else if(index==3){
+					content+="...</div>";
+					index=0
+				}
+				console.log()
+				$("#loading_data").append(content)
+			},1000);
+			break;
+		case 0:
+			content = "<div id='submitStatus'>模型保存失败,请检查网络并重新打开App</div>";
+			$("#loading_data").html(content);
+			break;
+		case 1:
+			content = "<div id='submitStatus'>模型准备打印中.</div>";
+			$("#loading_data").append(content);
+			statusInterval = setInterval(function(){
+				$("#loading_data").find("#submitStatus").remove();
+				content = "<div id='submitStatus'>模型准备打印中";
+				index++
+				if(index==1){
+					content+=".</div>";
+				}
+				else if(index==2){
+					content+="..</div>";
+				}
+				else if(index==3){
+					content+="...</div>";
+					index=0
+				}
+				$("#loading_data").append(content)
+			},1000);
+			break;
+		default:
+			$("#loading_data").find("#submitStatus").remove();
+	}
+}
 //main
 function init() {
 	renderer = new THREE.WebGLRenderer( { antialias: true, alpha: true, preserveDrawingBuffer: true} );
