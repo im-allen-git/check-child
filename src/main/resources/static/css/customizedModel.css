@@ -112,7 +112,7 @@ input#modelName::-webkit-input-placeholder{color: #ACC5DC; line-height: 25px; fo
 .swiper-button-prev:after,.swiper-button-next:after{ font-size: x-large;}
 .img_wrapper { position: relative; width: 70%; height: inherit; min-height: 3rem;margin: auto; }
 .img_wrapper img{position: absolute; top: 0; bottom: 0; left: 0; right: 0; margin: auto; max-width: 100%; max-height: 100%;}
-.confirm_print{background: url("../img/3dPrinting/btn_print.png");background-repeat: no-repeat;background-size: contain;    background-position: center;width: 1.15rem; height: .5rem; margin: auto;}
+.confirm_print{background: url("../img/3dPrinting/btn_orig.png");background-repeat: no-repeat;background-size: contain;    background-position: center;width: 1.15rem; height: .5rem; margin: auto;text-align: center; line-height: .5rem; color: #FFF;}
 .print_note{font-size: .12rem;color: #C3E3FF;line-height: .15rem;text-align: center}
 
 #loading_data img{left: 45%;}

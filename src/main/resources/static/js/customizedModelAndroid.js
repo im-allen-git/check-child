@@ -163,7 +163,6 @@ function confirmPrint(){
 	}
 	webkit.messageHandlers.saveStl.postMessage({fileTxt: confirmName, fileName: confirmStlName,imgData:confirmStlImg});
 }
-
 //main
 function init() {
 	renderer = new THREE.WebGLRenderer( { antialias: true, alpha: true, preserveDrawingBuffer: true} );
