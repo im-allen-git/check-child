@@ -107,7 +107,7 @@ public interface UserMapper {
             "<if test='online_type!=null and online_type != &quot;&quot; '> online_type = #{online_type}, </if>" +
             "<if test='ip_address!=null and ip_address != &quot;&quot; '> ip_address = #{ip_address}, </if>" +
             "  update_time= now() where user_id = #{user_id} " +
-            " <if test='name!=null and name != &quot;&quot; '> and name = #{name} </if> " +
+            " <if test='device_name!=null and device_name != &quot;&quot; '> and device_name = #{device_name} </if> " +
             " <if test='mac!=null and mac != &quot;&quot; '> and mac = #{mac}   </if> </script>")
     int updateEquipment(EquipmentPojo equipmentPojo);
 
@@ -156,8 +156,8 @@ public interface UserMapper {
 
 
     @Select("<script> select id,user_id,mac,name,item,type,weight,unit,waste_rate,number,create_time,del_status,item_value,unit_value from weighing_data " +
-            " left JOIN item_saz  on equipment.item=item_saz.item_id " +
-            " left JOIN unit_saz  on equipment.unit=unit_saz.unit_id " +
+            " left JOIN item_saz  on weighing_data.item=item_saz.item_id " +
+            " left JOIN unit_saz  on weighing_data.unit=unit_saz.unit_id " +
             " where del_status=0 and user_id = #{user_id} " +
             "<if test='mac!=null and mac != &quot;&quot; '> and mac = #{mac} </if>" +
             "<if test='item!=null and item != &quot;&quot; '> and item = #{item} </if>" +
@@ -168,9 +168,9 @@ public interface UserMapper {
     List<WeighingdataPojo> getWeightingDataList(WeighingdataPojo weighingdataPojo);
 
 
-    @Select("<script> select id,user_id,mac,name,item,weight,weight_avg,weight_avg_sum,unit,create_time,del_status,item_value,unit_value from weighing_data_avg " +
-            " left JOIN item_saz  on equipment.item=item_saz.item_id " +
-            " left JOIN unit_saz  on equipment.unit=unit_saz.unit_id " +
+    @Select("<script> select id,user_id,mac,name,item,weight_avg,weight_avg_sum,unit,create_time,del_status,item_value,unit_value from weighing_data_avg " +
+            " left JOIN item_saz  on weighing_data_avg.item=item_saz.item_id " +
+            " left JOIN unit_saz  on weighing_data_avg.unit=unit_saz.unit_id " +
             " where del_status=0 and user_id = #{user_id} " +
             "<if test='mac!=null and mac != &quot;&quot; '> and mac = #{mac} </if>" +
             "<if test='item!=null and item != &quot;&quot; '> and item = #{item} </if>" +
@@ -198,8 +198,8 @@ public interface UserMapper {
 
     @Select("<script> select id,user_id,mac,item,type,weight,unit,create_time,waste_rate,number,update_time,del_status,item_value,unit_value " +
             " from weighing_data" +
-            " left JOIN item_saz  on equipment.item=item_saz.item_id " +
-            " left JOIN unit_saz  on equipment.unit=unit_saz.unit_id " +
+            " left JOIN item_saz  on weighing_data.item=item_saz.item_id " +
+            " left JOIN unit_saz  on weighing_data.unit=unit_saz.unit_id " +
             " where del_status=0 and user_id = #{user_id} " +
             "<if test='item!=null and item != &quot;&quot; '> and item = #{item} </if>" +
             "<if test='type!=null and type != &quot;&quot; '> and type = #{type} </if>" +
