@@ -110,6 +110,12 @@ $( function () {
 	/*init();
 	render();*/
 } );
+function prevStep(){
+	$("#title").text("个性定制模型")
+		$(".name_wrapper").show();
+		$(".modules_slides").hide();
+		$(".prevStep").css("visibility","hidden");
+}
 function checkName() {
 	var name = $("#modelName").val();
 	userName = name;
@@ -120,9 +126,10 @@ function checkName() {
 		$("#title").text("选择定制模型")
 		$(".name_wrapper").hide();
 		$(".modules_slides").show(200);
+		$(".prevStep").css("visibility","visible");
 		// loadSTL(1);
 		checkNameFlag=true;
-		$("#es6Next").trigger("click");
+		$("#es6Next").trigger("click");//init1
 
 	}
 	else{
@@ -318,7 +325,7 @@ function init() {
 
 	container.addEventListener( 'resize', onWindowResize, false );
 	window.addEventListener( 'resize', onWindowResize, false );
-	getFont();
+	// getFont();
 	animate();
 	onWindowResize();
 }
@@ -516,16 +523,16 @@ async function loadSTL( thisSTL, name ) {
 	var file,fontSize;
 	switch (thisSTL) {
 		case 0:
-			file = './models/stl/ascii/3dPrinting/ring.stl';
+			file = '/models/stl/ascii/3dPrinting/ring.stl';
 			break;
 		case 1:
-			file = './models/stl/ascii/3dPrinting/longmao.stl';
+			file = '/models/stl/ascii/3dPrinting/longmao.stl';
 			break;
 		case 2:
-			file = './models/stl/ascii/3dPrinting/shudi.stl';
+			file = '/models/stl/ascii/3dPrinting/shudi.stl';
 			break;
 		default:
-			file = './models/stl/ascii/3dPrinting/ring.stl';
+			file = '/models/stl/ascii/3dPrinting/ring.stl';
 	}
 
 	var loader = new THREE.STLLoader();
@@ -552,8 +559,9 @@ async function loadSTL( thisSTL, name ) {
 }
 //main end
 function getFont(){
+	console.log("start get font")
 	var loader = new THREE.FontLoader();
-	loader.load( './css/font/other/SimHei_Regular.json', function ( font ) {
+	loader.load( '/css/font/other/SimHei_Regular.json', function ( font ) {
 		fontObj = font;
 		console.log("get Font")
 	})
@@ -564,7 +572,7 @@ function creatModifiedName(name,thisSTL){
 		fontSize = 4;
 	}
 	/*var loader = new THREE.FontLoader();
-	loader.load( './css/font/other/SimHei_Regular.json', function ( font ) {*/
+	loader.load( '/css/font/other/SimHei_Regular.json', function ( font ) {*/
 	if(fontObj) {
 		console.log( "name::" + name )
 		var currentWord = name.toUpperCase();

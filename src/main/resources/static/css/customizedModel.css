@@ -118,3 +118,5 @@ input#modelName::-webkit-input-placeholder{color: #ACC5DC; line-height: 25px; fo
 #loading_data img{left: 42%;}
 
 #submitStatus{text-align: center;color: #000;position: absolute; top: 38%; width: 100%;font-weight: bold;font-size: .15rem;}
+
+.prevStep{visibility: hidden}
