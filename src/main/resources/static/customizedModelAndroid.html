@@ -6,11 +6,11 @@
 	<meta name="viewport"
 		  content="width=device-width, user-scalable=no, minimum-scale=1, maximum-scale=1, initial-scale=1">
 	<meta http-equiv="X-UA-Compatible" content="IE=11,chrome=1">
-	<link rel="stylesheet" type="text/css" href="/css/dialog.css"/>
-	<link type="text/css" rel="stylesheet" href="/css/font/iconfont.css">
-	<link type="text/css" rel="stylesheet" href="/css/swiper.min.css">
-	<link type="text/css" rel="stylesheet" href="/css/common.css">
-	<link type="text/css" rel="stylesheet" href="/css/customizedModel.css">
+	<link rel="stylesheet" type="text/css" href="./css/dialog.css"/>
+	<link type="text/css" rel="stylesheet" href="./css/font/iconfont.css">
+	<link type="text/css" rel="stylesheet" href="./css/swiper.min.css">
+	<link type="text/css" rel="stylesheet" href="./css/common.css">
+	<link type="text/css" rel="stylesheet" href="./css/customizedModel.css">
 </head>
 <body>
 <div class="main_wrapper">
@@ -34,22 +34,22 @@
 				<div class="swiper-wrapper">
 					<!--<div class="swiper-slide">
 						<div class="img_wrapper">
-							<img src="/img/3dPrinting/ring.png" alt="">
+							<img src="./img/3dPrinting/ring.png" alt="">
 						</div>
 					</div>-->
 					<div class="swiper-slide">
 						<div class="img_wrapper">
-							<img src="/img/3dPrinting/heart.png" alt="">
+							<img src="./img/3dPrinting/heart.png" alt="">
 						</div>
 					</div>
 					<div class="swiper-slide">
 						<div class="img_wrapper">
-							<img src="/img/3dPrinting/longmao.png" alt="">
+							<img src="./img/3dPrinting/longmao.png" alt="">
 						</div>
 					</div>
 					<div class="swiper-slide">
 						<div class="img_wrapper">
-							<img src="/img/3dPrinting/shudi.png" alt="">
+							<img src="./img/3dPrinting/shudi.png" alt="">
 						</div>
 					</div>
 
@@ -65,21 +65,19 @@
 	</div>
 	<div id="container"></div>
 	<div id="containerModule"></div>
-	<div id="loading_data"><img src="/img/loading.gif" alt=""></div>
+	<div id="loading_data"><img src="./img/loading.gif" alt=""></div>
 </div>
 </body>
 
-<script src='/js/jquery.min.js'></script>
-<script src='/js/common.js'></script>
-<script src='/js/three.js'></script>
-<script src='/js/loaders/STLLoader.js'></script>
-<script src='/js/exporters/STLExporter.js'></script>
-<script src="/js/others/BendModifierMy.js"></script>
-<script src='/js/swiper.min.js'></script>
-<script src='/js/customizedModelAndroid.js'></script>
+<script src='./js/jquery.min.js'></script>
+<script src='./js/common.js'></script>
+<script src='./js/three.js'></script>
+<script src='./js/loaders/STLLoader.js'></script>
+<script src='./js/exporters/STLExporter.js'></script>
+<script src="./js/others/BendModifierMy.js"></script>
+<script src='./js/swiper.min.js'></script>
+<script src='./js/customizedModelAndroid.js'></script>
 <script>
-	getFont();
-
 	function showLoading(){
 		$("#loading_data").show();
 	}
@@ -90,16 +88,15 @@
 <script type="module">
 	// 该方法主要是用于 心 模型，内嵌文字
 	var containerES6 = document.getElementById( 'containerModule' );
-	import * as THREE from '/js/three.module.js';
-	import { STLLoader } from '/jsm/loaders/STLLoader.js';
-	import { STLExporter } from '/jsm/exporters/STLExporter.js';
-	import  CSG   from '/js/engraving/CSGMesh.js';
+	import * as THREE from './js/three.module.js';
+	import { STLLoader } from './jsm/loaders/STLLoader.js';
+	import { STLExporter } from './jsm/exporters/STLExporter.js';
+	import  CSG   from './js/engraving/CSGMesh.js';
 
 	$("#es6Next").click(function(){
         init1();
     })
 	$("#loadHeart").click(function(){
-		console.log("赋予方法")
         afterCheckName();
     })
 	function init1() {
@@ -174,19 +171,19 @@
 		var file,fontSize;
 		switch (thisSTL) {
 			case 0:
-				file = '/models/stl/ascii/3dPrinting/ring.stl';
+				file = './models/stl/ascii/3dPrinting/ring.stl';
 				break;
 			case 1:
-				file = '/models/stl/ascii/3dPrinting/longmao.stl';
+				file = './models/stl/ascii/3dPrinting/longmao.stl';
 				break;
 			case 2:
-				file = '/models/stl/ascii/3dPrinting/shudi.stl';
+				file = './models/stl/ascii/3dPrinting/shudi.stl';
 				break;
 			case 3:
-				file = '/models/stl/ascii/3dPrinting/heart.stl';
+				file = './models/stl/ascii/3dPrinting/heart.stl';
 				break;
 			default:
-				file = '/models/stl/ascii/3dPrinting/ring.stl';
+				file = './models/stl/ascii/3dPrinting/ring.stl';
 		}
 
 		var loader = new STLLoader();
@@ -312,7 +309,7 @@
 	}
 	function getFont(){
 		var loader = new THREE.FontLoader();
-		loader.load( '/css/font/other/SimHei_Regular.json', function ( font ) {
+		loader.load( './css/font/other/SimHei_Regular.json', function ( font ) {
 			var fontObj = font;
 			console.log("get Font")
 		})
@@ -370,7 +367,6 @@
 			loadSTLEngraving(3)
 		}
 		else{
-			console.log("export end to confirm print")
 			confirmPrint();
 		}
 	}
