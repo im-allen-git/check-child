@@ -20,6 +20,7 @@ $(function () {
 function goPage( type ) {
     type = Number(type);
     if(isAndroid){
+        console.log("isAndroid: " + type)
         switch (type) {
             case 1:
                 $(".save_succ,.save_name_module_bg").hide();
@@ -55,6 +56,7 @@ function goPage( type ) {
         }
     }
     else{
+        console.log("is iOS: " + type)
         switch (type) {
             case 1:
                 $(".save_succ,.save_name_module_bg").hide();
