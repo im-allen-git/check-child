@@ -9,6 +9,9 @@ $(function () {
     if (isAndroid) {
         isAndroid = true;
     }
+    else{
+        isAndroid = false;
+    }
     if (isIOS) {
         isAndroid = false;
     }

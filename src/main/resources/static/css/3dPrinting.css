@@ -190,7 +190,7 @@ img.save_name_ok,img.go_home_ok { width: .9rem; height: auto; margin: .12rem .2r
 .right_side { float: left; width: 40%; position: relative; }
 .right_side img { max-width: 100%;margin-top: .06rem; }
 .save_ask .btn_wrapper .go_home_ok{margin-top: .05rem}
-.save_succ { height: 1.5rem; margin-top: -.75rem; }
+.save_succ { height: 1.5rem; /*margin-top: -.75rem; */}
 i.jump_mymodult { color: #ff972d; }
     /*lego*/
 .dg.ac.lego_constrution{right: .9rem;}
