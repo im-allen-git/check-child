@@ -47,6 +47,10 @@ function goPage( type ) {
             // window.location.href = "ios:@8" ; //1,我的模型 2 商城 3 模型库首页 4 创建模型 5 返回上一页
             webkit.messageHandlers.jumpPage.postMessage("61");
             break;
+        case 66:
+            // window.location.href = "ios:@8" ; //1,我的模型 2 商城 3 模型库首页 4 创建模型 5 返回上一页
+            webkit.messageHandlers.jumpPage.postMessage("66");
+            break;
 
     }
 

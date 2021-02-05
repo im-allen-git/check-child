@@ -18,11 +18,11 @@
 		<div class="top_menu row clearfix">
 			<div class="top_menu_btn col-xs-3 text-center"></div>
 			<div class="top_menu_btn col-xs-6 text-center" id="title">个性定制模型</div>
-			<div class="top_menu_btn col-xs-3 text-right" onclick="goPage(3)">跳过</div>
+			<div class="top_menu_btn col-xs-3 text-right" onclick="goPage(66)">跳过</div>
 		</div>
 		<div class="name_wrapper">
-			<input type="text" class="name_inpit" id="modelName" placeholder="请输入您的姓名，最多5个字符" maxlength="5">
-			<div class="name_note">*录入姓名可打印有您姓名的模型</div>
+			<input type="text" class="name_inpit" id="modelName" placeholder="请输入您的姓名，最多5个字符" maxlength="5" onkeyup="this.value=this.value.replace(/[\u4E00-\u9FA5]+/g,'')">
+			<div class="name_note">*录入姓名可打印有您姓名的模型(仅支持非中文)</div>
 			<div class="validate_name" onclick="clearTimeoutFn()">请输入您的姓名</div>
 			<div class="btn_confirm" onclick="checkName()">下一步</div>
 			<div id="es6Next">下一步</div>
