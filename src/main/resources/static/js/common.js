@@ -8,7 +8,6 @@ $(function () {
 //console.log(123)
 function goPage( type ) {
     type = Number(type);
-    log("type: " + type);
     switch (type) {
             case 1:
                 $(".save_succ,.save_name_module_bg").hide();
@@ -41,7 +40,7 @@ function goPage( type ) {
                 js.changeActive( "61" );//1,我的模型 2 商城 3 模型库首页 4 创建模型 5 返回上一页
                 break;
             case 66:
-                js.changeActive( "66" );//1,我的模型 2 商城 3 模型库首页 4 创建模型 5 返回上一页
+                js.changeActive( "66" );//第一次wifi连接 引导页
                 break;
 
         }

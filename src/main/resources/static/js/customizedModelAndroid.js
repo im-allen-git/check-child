@@ -188,7 +188,7 @@ function confirmPrint(){
 	submitStatus('-1')
 	var successFlag = js.saveStl( confirmName, confirmStlName, confirmStlImg);
 	if(successFlag){
-		js.changeActive( "9" );//
+		js.changeActive( "66" );//
 	}
 	else{
 
