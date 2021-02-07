@@ -88,6 +88,8 @@ var model_shudi;
 var model_heart;
 var currentModelStl=0;
 var checkNameFlag=false;//名字检测是否通过
+var checkfontInter;
+
 $( function () {
 	var swiper = new Swiper( '.swiper-container', {
 		freeMode: false,
@@ -186,7 +188,7 @@ function confirmPrint(){
 	submitStatus('-1')
 	var successFlag = js.saveStl( confirmName, confirmStlName, confirmStlImg);
 	if(successFlag){
-		js.changeActive( "1" );//
+		js.changeActive( "9" );//
 	}
 	else{
 
@@ -561,10 +563,10 @@ async function loadSTL( thisSTL, name ) {
 	} );
 }
 //main end
-function getFont(){
+async function getFont(){
 	console.log("start get font")
 	var loader = new THREE.FontLoader();
-	loader.load( './css/font/other/SimHei_Regular.json', function ( font ) {
+	await loader.load( './css/font/other/optimer_regular.typeface.json', function ( font ) {
 		fontObj = font;
 		console.log("get Font")
 	})
@@ -577,6 +579,7 @@ function creatModifiedName(name,thisSTL){
 	/*var loader = new THREE.FontLoader();
 	loader.load( './css/font/other/SimHei_Regular.json', function ( font ) {*/
 	if(fontObj) {
+		clearInterval(checkfontInter)
 		console.log( "name::" + name )
 		var currentWord = name.toUpperCase();
 		console.log( "currentWord::" + currentWord )
@@ -631,6 +634,10 @@ function creatModifiedName(name,thisSTL){
 		// camera.lookAt( 0, 0, 0 );
 		exportMoudle( 0, name, thisSTL )
 	}
-	// } );
+	else{
+		checkfontInter = setInterval(function(){
+			creatModifiedName(name,thisSTL)
+		},1000)
+	}
 }
 

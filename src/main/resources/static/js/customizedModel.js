@@ -89,8 +89,6 @@ var model_heart;
 var currentModelStl=0;
 var checkNameFlag=false;//名字检测是否通过
 var checkfontInter;
-
-var fonttestObj = {};
 $( function () {
 	var swiper = new Swiper( '.swiper-container', {
 		freeMode: false,
@@ -645,7 +643,5 @@ function creatModifiedName(name,thisSTL){
             	creatModifiedName(name,thisSTL)
             },1000)
 	}
-
-	// } );
 }
 
