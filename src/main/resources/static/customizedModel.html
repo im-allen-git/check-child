@@ -21,7 +21,7 @@
 			<div class="top_menu_btn col-xs-3 text-right" onclick="goPage(66)">跳过</div>
 		</div>
 		<div class="name_wrapper">
-			<input type="text" class="name_inpit" id="modelName" placeholder="请输入您的姓名，最多5个字符" maxlength="5" onkeyup="this.value=this.value.replace(/[\u4E00-\u9FA5]+/g,'')">
+			<input type="text" class="name_inpit" id="modelName" placeholder="请输入您的姓名，最多5个字符" maxlength="5" onkeyup="checkName(this)" oninput="checkName(this)" onblur="checkName(this)">
 			<div class="name_note">*录入姓名可打印有您姓名的模型(仅支持非中文)</div>
 			<div class="validate_name" onclick="clearTimeoutFn()">请输入您的姓名</div>
 			<div class="btn_confirm" onclick="checkName()">下一步</div>
@@ -83,6 +83,15 @@
 	}
 	function hideLoading(){
 		$("#loading_data").hide();
+	}
+	function checkName(obj){
+		var name = $(obj).val();
+		var regx = /[\u4E00-\u9FA5]+/;
+
+		if(regx.test(name)){
+			name = name.replace(/[\u4E00-\u9FA5]+/g,'')
+		}
+		$(obj).val(name);
 	}
 </script>
 <script type="module">
