@@ -85,7 +85,7 @@
 		$("#loading_data").hide();
 	}
 	function checkinputName(obj){
-		var name = $(obj).val();
+		var name = $(obj).val().replace(/ /g,'');
 		var regx = /[\u4E00-\u9FA5]+/;
 
 		if(regx.test(name)){
