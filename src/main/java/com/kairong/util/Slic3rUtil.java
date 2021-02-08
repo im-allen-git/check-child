@@ -100,11 +100,11 @@ public class Slic3rUtil {
             }
             commandLineMap.forEach((k, v) -> sb.append(" " + k + " " + v));
         }
-        if (configInt > 0) {
+        /*if (configInt > 0) {
             sb.append(" --output " + outputPath + " --load config.ini");
         } else {
             sb.append(" --output " + outputPath + " --load config1.ini");
-        }
+        }*/
         // sb.append(" --output " + outputPath);
         System.err.println(sb.toString());
         return exportGcodeByCommandLine(sb.toString(), outputPath);
