@@ -34,7 +34,7 @@ server:
 file:
   upload-dir:
     android: F:/threeModel/3dmodel/static/android
-      ios: F:/threeModel/3dmodel/static/ios
+    ios: F:/threeModel/3dmodel/static/ios
 
 slic3r:
   console1: F:/WorkSoft/Slic3rList/Slic3r-1301/Slic3r-console
