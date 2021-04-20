@@ -47,5 +47,7 @@ public class EquipmentPojo {
     private String unit_value;
     // 在线名称 蓝牙 wifi
     private String online_value;
+    //用餐人数
+    private String number;
 
 }

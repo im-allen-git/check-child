@@ -204,6 +204,11 @@ public class UserServiceImpl implements UserService {
         return userMapper.getWeightAvgList(weighingDataAvgPojo);
     }
 
+    @Override
+    public String getWeightAvgDay(WeighingDataAvgPojo weighingDataAvgPojo) {
+        return userMapper.getWeightAvgDay(weighingDataAvgPojo);
+    }
+
 
 
     @Override
@@ -226,6 +231,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<WeighingdataPojo> getWeightingDataListByYMWD(WeighingdataPojo weighingdataPojo) {
         return userMapper.getWeightingDataListByYMWD(weighingdataPojo);
+    }
+
+    @Override
+    public List<WeighingDataAvgPojo> getWeightingDataAvgListByYMWD(WeighingDataAvgPojo weighingDataAvgPojo) {
+        return userMapper.getWeightingDataAvgListByYMWD(weighingDataAvgPojo);
     }
 
 

@@ -8,6 +8,7 @@ import com.kairong.util.TimeUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.Assert;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -74,6 +75,7 @@ public class UserController {
 //    }
 
     @PostMapping("/equipmentInfoUp")
+    @CrossOrigin
     //设备数据更新 硬件调用接口
     public CommonResult equipmentInfoUp(HttpServletRequest request, HttpServletResponse response,EquipmentPojo equipmentPojo) {
 
@@ -118,6 +120,7 @@ public class UserController {
 //    }
 
     @PostMapping("/weighingDataInsert")
+    @CrossOrigin
     //称重设备插入硬件调用接口
     public CommonResult weighingDataInsert(HttpServletRequest request, HttpServletResponse response,WeighingdataPojo weighingdataPojo) {
 
@@ -127,6 +130,13 @@ public class UserController {
 
             weighingdataPojo.setUser_id(String.valueOf(userId));
             weighingdataPojo.setCreate_time(TimeUtil.stampToDate(weighingdataPojo.getCreate_time()));
+
+            UserPojo userPojo = new UserPojo();
+            userPojo.setUser_id(userId);
+            UserPojo bean= userService.getUserInfoData(userPojo);
+            weighingdataPojo.setNumber(Integer.valueOf(bean.getNumber()));
+            weighingdataPojo.setWaste_rate(bean.getWaste_rate());
+
             // 插入数据
             int id = userService.weighingdataAdd(weighingdataPojo);
 
@@ -144,6 +154,7 @@ public class UserController {
 
 
     @PostMapping("/weighingDataInsertSf")
+    @CrossOrigin
     //称重设备插入
     public CommonResult weighingDataInsertSf(HttpServletRequest request, HttpServletResponse response,WeighingdataPojo weighingdataPojo) {
 
@@ -185,6 +196,7 @@ public class UserController {
 
 
     @PostMapping("/registerOrLogin")
+    @CrossOrigin
     // 保存注册用户数据
     public CommonResult registerOrLogin(HttpServletRequest request, HttpServletResponse response,UserPojo userPojo) {
 
@@ -226,6 +238,7 @@ public class UserController {
 //    }
 
     @PostMapping("/getUserInfoDataList")
+    @CrossOrigin
     // 查询用户信息数据
     public String getUserInfoDataList(HttpServletRequest request, HttpServletResponse response,UserPojo userPojo) {
 
@@ -238,6 +251,7 @@ public class UserController {
 
 
     @PostMapping("/updateUserInfo")
+    @CrossOrigin
     // 用户数据修改
     public CommonResult updateUserInfo(HttpServletRequest request, HttpServletResponse response,UserPojo userPojo) {
 
@@ -260,6 +274,7 @@ public class UserController {
 
 
     @PostMapping("/bindingUserAdd")
+    @CrossOrigin
     // 保存绑定用户数据
     public CommonResult bindingUserAdd(HttpServletRequest request, HttpServletResponse response,BindingUserPojo bindingUserPojo) {
 
@@ -308,6 +323,7 @@ public class UserController {
     }
 
     @PostMapping("/bindingUserDel")
+    @CrossOrigin
     // 删除群组共享用户数据
     public CommonResult bindingUserDel(HttpServletRequest request, HttpServletResponse response,BindingUserPojo bindingUserPojo) {
 
@@ -330,6 +346,7 @@ public class UserController {
     }
 
     @PostMapping("/getBindingUserList")
+    @CrossOrigin
     // 查询绑定用户信息数据
     public String getBindingUserList(HttpServletRequest request, HttpServletResponse response,BindingUserPojo bindingUserPojo) {
 
@@ -342,6 +359,7 @@ public class UserController {
 
 
     @PostMapping("/equipmentAdd")
+    @CrossOrigin
     // 保存设备信息数据
     public CommonResult equipmentAdd(HttpServletRequest request, HttpServletResponse response,EquipmentPojo equipmentPojo) {
 
@@ -368,6 +386,7 @@ public class UserController {
     }
 
     @PostMapping("/equipmentDel")
+    @CrossOrigin
     // 设备信息删除
     public CommonResult equipmentDel(HttpServletRequest request, HttpServletResponse response,EquipmentPojo equipmentPojo) {
 
@@ -389,6 +408,7 @@ public class UserController {
     }
 
     @PostMapping("/updateEquipment")
+    @CrossOrigin
     // 更新设备信息数据
     public CommonResult updateEquipment(HttpServletRequest request, HttpServletResponse response,EquipmentPojo equipmentPojo) {
 
@@ -411,6 +431,7 @@ public class UserController {
     }
 
     @PostMapping("/updateEquipments")
+    @CrossOrigin
     // 更新设备信息数据左设备变换右设备
     public CommonResult updateEquipments(HttpServletRequest request, HttpServletResponse response,EquipmentPojo equipmentPojo) {
 
@@ -434,6 +455,7 @@ public class UserController {
 
 
     @PostMapping("/getEquipmentDataList")
+    @CrossOrigin
     // 查询设备信息数据
     public String getEquipmentDataList(HttpServletRequest request, HttpServletResponse response,EquipmentPojo equipmentPojo) {
 
@@ -445,6 +467,7 @@ public class UserController {
     }
 
     @PostMapping("/weighingdataAdd")
+    @CrossOrigin
     // 保存称重信息数据 手动输入
     public CommonResult weighingdataAdd(HttpServletRequest request, HttpServletResponse response,WeighingdataPojo weighingdataPojo) {
 
@@ -468,6 +491,7 @@ public class UserController {
     }
 
     @PostMapping("/updateWeighingdata")
+    @CrossOrigin
     // 更新称重信息数据
     public CommonResult updateWeighingdata(HttpServletRequest request, HttpServletResponse response,WeighingdataPojo weighingdataPojo) {
 
@@ -490,6 +514,7 @@ public class UserController {
     }
 
     @PostMapping("/updateDelWeighingData")
+    @CrossOrigin
     // 逻辑删除称重信息数据单条数据
     public CommonResult updateDelWeighingData(HttpServletRequest request, HttpServletResponse response,WeighingdataPojo weighingdataPojo) {
 
@@ -514,6 +539,7 @@ public class UserController {
     }
 
     @PostMapping("/updateDelWeighingAllData")
+    @CrossOrigin
     // 逻辑删除称重信息数据多条数据
     public CommonResult updateDelWeighingAllData(HttpServletRequest request, HttpServletResponse response,WeighingdataPojo weighingdataPojo) {
 
@@ -535,6 +561,7 @@ public class UserController {
     }
 
     @PostMapping("/getWeightingDataList")
+    @CrossOrigin
     // 查询称重信息数据所有
     public String getWeightingDataList(HttpServletRequest request, HttpServletResponse response,WeighingdataPojo weighingdataPojo) {
 
@@ -546,6 +573,7 @@ public class UserController {
     }
 
     @PostMapping("/getWeightingDataCalculateList")
+    @CrossOrigin
     // 查询称重信息数据
     public String getWeightingDataCalculateList(HttpServletRequest request, HttpServletResponse response,WeighingdataPojo weighingdataPojo) {
 
@@ -557,6 +585,7 @@ public class UserController {
     }
 
     @PostMapping("/getCalculateList")
+    @CrossOrigin
     // 查询称重信息数据第一餐第二餐时间
     public String getCalculateList(HttpServletRequest request, HttpServletResponse response,WeighingdataPojo weighingdataPojo) {
 
@@ -569,6 +598,7 @@ public class UserController {
 
 
     @PostMapping("/getWeightingDataListByHour")
+    @CrossOrigin
     // 查询称重信息数据编辑修改查询
     public String getWeightingDataListByHour(HttpServletRequest request, HttpServletResponse response,WeighingdataPojo weighingdataPojo) {
 
@@ -581,6 +611,7 @@ public class UserController {
 
 
     @PostMapping("/getWeightingDataListByYMWD")
+    @CrossOrigin
     // 查询称重信息数据按日周月年(flag_type:1天2周3月4年)
     public String getWeightingDataListByYMWD(HttpServletRequest request, HttpServletResponse response,WeighingdataPojo weighingdataPojo) {
 
@@ -592,6 +623,7 @@ public class UserController {
     }
 
     @PostMapping("/qaAdd")
+    @CrossOrigin
     // 保存QA数据
     public CommonResult qaAdd(HttpServletRequest request, HttpServletResponse response, QAPojo qaPojo) {
 
@@ -614,6 +646,7 @@ public class UserController {
     }
 
     @PostMapping("/weightAvgAdd")
+    @CrossOrigin
     // 保存日均摄入重量数据
     public CommonResult weightAvgAdd(HttpServletRequest request, HttpServletResponse response, WeighingDataAvgPojo weighingDataAvgPojo) {
         Assert.notNull(weighingDataAvgPojo, "weighingDataAvgPojo info is null");
@@ -635,6 +668,7 @@ public class UserController {
     }
 
     @PostMapping("/getWeightAvgList")
+    @CrossOrigin
     // 查询日均摄入数据
     public String getWeightAvgList(HttpServletRequest request, HttpServletResponse response,WeighingDataAvgPojo weighingDataAvgPojo) {
 
@@ -644,5 +678,37 @@ public class UserController {
         return JSON.toJSONString(weightAvgList);
 
     }
+
+    @PostMapping("/getWeightingDataAvgListByYMWD")
+    @CrossOrigin
+    // 查询称重日均信息数据按周月(flag_type:1日周2)
+    public String getWeightingDataAvgListByYMWD(HttpServletRequest request, HttpServletResponse response,WeighingDataAvgPojo weighingDataAvgPojo) {
+
+        // 查询称重信息数据
+        List<WeighingDataAvgPojo>  weighingdataPojoList= userService.getWeightingDataAvgListByYMWD(weighingDataAvgPojo);
+
+        return JSON.toJSONString(weighingdataPojoList);
+
+    }
+
+    @PostMapping("/getWeightAvgDay")
+    @CrossOrigin
+    // 查询日均摄入数据 硬件
+    public String getWeightAvgDay(HttpServletRequest request, HttpServletResponse response,WeighingDataAvgPojo weighingDataAvgPojo) {
+
+        String weightAvg="";
+        try {
+            // 查询日均摄入数据
+            weightAvg= userService.getWeightAvgDay(weighingDataAvgPojo);
+        }catch (Exception e) {
+            weightAvg="0";
+            e.printStackTrace();
+            log.error("getWeightAvgDay, error:", weighingDataAvgPojo, e);
+        }
+
+        return weightAvg;
+
+    }
+
 
 }

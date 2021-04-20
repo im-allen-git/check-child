@@ -32,7 +32,7 @@ public interface UserMapper {
     @Update("update equipment set ip_address = #{ip_address},online_type=#{online_type} where mac = #{mac}")
     int equipmentInfoUp(EquipmentPojo equipmentPojo);
 
-    @Select("select user_id from equipment where mac = #{mac} limit 1")
+    @Select("select user_id from equipment where mac = #{mac} order by create_time desc limit 1")
     int getUserId(String mac);
 
     @Insert("insert into weighing_data(user_id,mac,item,type,weight,create_time) values(#{userId},#{mac},#{item},1,#{weight},#{createTime})")
@@ -74,8 +74,8 @@ public interface UserMapper {
     @Delete("delete from binding_user where user_id = #{user_id} and binding_userid = #{binding_userid}")
     int bindingUserDel(BindingUserPojo bindingUserPojo);
 
-    @Insert("insert into equipment(mac,name,user_id,item,unit,target,ip_address,online_type,service_id,characteristic_id,device_name) " +
-            "values(#{mac},#{name},#{user_id},#{item},#{unit},#{target},#{ip_address},#{online_type},#{service_id},#{characteristic_id},#{device_name})")
+    @Insert("insert into equipment(mac,name,user_id,item,unit,target,ip_address,online_type,service_id,characteristic_id,device_name,number) " +
+            "values(#{mac},#{name},#{user_id},#{item},#{unit},#{target},#{ip_address},#{online_type},#{service_id},#{characteristic_id},#{device_name},#{number})")
     int saveEquipmentDataBase(EquipmentPojo equipmentPojo);
 
 
@@ -83,12 +83,12 @@ public interface UserMapper {
             "values(#{user_id},#{content})")
     int saveQaDataBase(QAPojo qaPojo);
 
-    @Insert("insert into weighing_data_avg(user_id,mac,name,item,weight_avg,weight_avg_sum,unit,create_time) " +
+    @Insert("replace into weighing_data_avg(user_id,mac,name,item,weight_avg,weight_avg_sum,unit,create_time) " +
             "values(#{user_id},#{mac},#{name},#{item},#{weight_avg},#{weight_avg_sum},#{unit},#{create_time})")
     int saveWeightAvgAddBase(WeighingDataAvgPojo wighingDataAvgPojo);
 
 
-    @Select("select count(0) from equipment where user_id = #{user_id} and mac = #{mac}  and item = #{item}  and name = #{name} ")
+    @Select("select count(0) from equipment where user_id = #{user_id} and mac = #{mac}  and item = #{item}  and device_name = #{device_name} ")
     int checkEquipmentDataBase(EquipmentPojo equipmentPojo);
 
     @Delete("<script> delete from equipment where mac = #{mac} and user_id = #{user_id} " +
@@ -104,6 +104,7 @@ public interface UserMapper {
             "<if test='item!=null and item != &quot;&quot; '> item = #{item}, </if>" +
             "<if test='unit!=null and unit != &quot;&quot; '> unit = #{unit}, </if>" +
             "<if test='target!=null and target != &quot;&quot; '> target = #{target}, </if>" +
+            "<if test='number!=null and number != &quot;&quot; '> number = #{number}, </if>" +
             "<if test='online_type!=null and online_type != &quot;&quot; '> online_type = #{online_type}, </if>" +
             "<if test='ip_address!=null and ip_address != &quot;&quot; '> ip_address = #{ip_address}, </if>" +
             "  update_time= now() where user_id = #{user_id} " +
@@ -115,6 +116,7 @@ public interface UserMapper {
             "<if test='set_item!=null and set_item != &quot;&quot; '> item = #{set_item}, </if>" +
             "<if test='unit!=null and unit != &quot;&quot; '> unit = #{unit}, </if>" +
             "<if test='target!=null and target != &quot;&quot; '> target = #{target}, </if>" +
+            "<if test='number!=null and number != &quot;&quot; '> number = #{number}, </if>" +
             "<if test='online_type!=null and online_type != &quot;&quot; '> online_type = #{online_type}, </if>" +
             "<if test='ip_address!=null and ip_address != &quot;&quot; '> ip_address = #{ip_address}, </if>" +
             "<if test='set_name!=null and set_name != &quot;&quot; '> name = #{set_name}, </if>" +
@@ -125,7 +127,7 @@ public interface UserMapper {
     int updateEquipments(EquipmentPojo equipmentPojo);
 
 
-    @Select("<script> select mac,name,user_id,item,unit,target,ip_address,online_type,service_id,characteristic_id,device_name,update_time,item_value,unit_value,online_value from equipment " +
+    @Select("<script> select mac,name,user_id,item,unit,target,ip_address,online_type,service_id,characteristic_id,device_name,update_time,item_value,unit_value,online_value,number from equipment " +
             " left JOIN item_saz on equipment.item=item_saz.item_id " +
             " left JOIN unit_saz on equipment.unit=unit_saz.unit_id " +
             " left JOIN online_saz on equipment.online_type=online_saz.online_id " +
@@ -164,20 +166,33 @@ public interface UserMapper {
             "<if test='type!=null and type != &quot;&quot; '> and type = #{type} </if> " +
             "<if test='start_time!=null and start_time != &quot;&quot; '> and create_time &gt;= #{start_time} </if>" +
             "<if test='end_time!=null and end_time != &quot;&quot; '> and create_time &lt;= #{end_time} </if>" +
-            " order by create_time desc </script>")
+            " order by create_time  </script>")
     List<WeighingdataPojo> getWeightingDataList(WeighingdataPojo weighingdataPojo);
 
 
     @Select("<script> select id,user_id,mac,name,item,weight_avg,weight_avg_sum,unit,create_time,del_status,item_value,unit_value from weighing_data_avg " +
             " left JOIN item_saz  on weighing_data_avg.item=item_saz.item_id " +
             " left JOIN unit_saz  on weighing_data_avg.unit=unit_saz.unit_id " +
-            " where del_status=0 and user_id = #{user_id} " +
+            " where del_status=0  " +
+            "<if test='user_id!=null and user_id != &quot;&quot; '> and user_id = #{user_id} </if>" +
             "<if test='mac!=null and mac != &quot;&quot; '> and mac = #{mac} </if>" +
             "<if test='item!=null and item != &quot;&quot; '> and item = #{item} </if>" +
             "<if test='start_time!=null and start_time != &quot;&quot; '> and create_time &gt;= #{start_time} </if>" +
             "<if test='end_time!=null and end_time != &quot;&quot; '> and create_time &lt;= #{end_time} </if>" +
             " order by create_time desc </script>")
     List<WeighingDataAvgPojo> getWeightAvgList(WeighingDataAvgPojo weighingDataAvgPojo);
+
+    @Select("<script> select weight_avg,item_value,unit_value from weighing_data_avg " +
+            " left JOIN item_saz  on weighing_data_avg.item=item_saz.item_id " +
+            " left JOIN unit_saz  on weighing_data_avg.unit=unit_saz.unit_id " +
+            " where del_status=0  " +
+            "<if test='user_id!=null and user_id != &quot;&quot; '> and user_id = #{user_id} </if>" +
+            "<if test='mac!=null and mac != &quot;&quot; '> and mac = #{mac} </if>" +
+            "<if test='item!=null and item != &quot;&quot; '> and item = #{item} </if>" +
+            "<if test='start_time!=null and start_time != &quot;&quot; '> and create_time &gt;= #{start_time} </if>" +
+            "<if test='end_time!=null and end_time != &quot;&quot; '> and create_time &lt;= #{end_time} </if>" +
+            " order by create_time desc </script>")
+    String getWeightAvgDay(WeighingDataAvgPojo weighingDataAvgPojo);
 
 
     @Select("<script> select DATE_FORMAT(create_time,'%Y-%m-%d %H:%i') format_time,weight,waste_rate,number,type,id " +
@@ -226,6 +241,19 @@ public interface UserMapper {
             "</script>")
     List<WeighingdataPojo> getWeightingDataListByYMWD(WeighingdataPojo weighingdataPojo);
 
+    @Select("<script> select sum(weight_avg) as weight_avg,sum(weight_avg_sum) as weight_avg_sum,item " +
+            "<if test='flag_type==1 '>  ,DATE_FORMAT(create_time,'%Y-%m-%d') AS format_time  </if>" +
+            "<if test='flag_type==2 '>  ,WEEK(create_time) as format_time,min(create_time) as start_week,max(create_time) as end_week </if>" +
+            " from weighing_data_avg where del_status=0 and user_id = #{user_id} " +
+            "<if test='mac!=null and mac != &quot;&quot; '> and mac = #{mac} </if>" +
+            "<if test='item!=null and item != &quot;&quot; '> and item = #{item} </if>" +
+            "<if test='start_time!=null and start_time != &quot;&quot; '> and create_time &gt;= #{start_time} </if>" +
+            "<if test='end_time!=null and end_time != &quot;&quot; '> and create_time &lt;= #{end_time}  </if>" +
+            "<if test='start_time!=null and start_time != &quot;&quot; and flag_type==1 '>  GROUP BY DATE_FORMAT(create_time,'%Y-%m-%d') </if>" +
+            "<if test='start_time!=null and start_time != &quot;&quot; and flag_type==2 '>  GROUP BY WEEK(create_time) </if>" +
+
+            "</script>")
+    List<WeighingDataAvgPojo> getWeightingDataAvgListByYMWD(WeighingDataAvgPojo weighingDataAvgPojo);
 
 
 }

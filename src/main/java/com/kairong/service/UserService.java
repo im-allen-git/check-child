@@ -109,4 +109,11 @@ public interface UserService {
     // 查询日均摄入数据
     List<WeighingDataAvgPojo> getWeightAvgList(WeighingDataAvgPojo weighingDataAvgPojo);
 
+
+    // 查询称重信息数据按周月年
+    List<WeighingDataAvgPojo> getWeightingDataAvgListByYMWD(WeighingDataAvgPojo weighingDataAvgPojo);
+
+
+    // 查询日均摄入数据
+    String getWeightAvgDay(WeighingDataAvgPojo weighingDataAvgPojo);
 }

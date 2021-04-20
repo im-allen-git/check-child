@@ -39,5 +39,9 @@ public class WeighingDataAvgPojo {
     private String item_value;
     // 单位中文名
     private String unit_value;
-
+    // 周1月2 区分
+    private int flag_type;
+    private String format_time;
+    private String start_week;
+    private String end_week;
 }
